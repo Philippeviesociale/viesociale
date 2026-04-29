@@ -1,0 +1,2261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563EB;--blue-l:#EFF6FF;--blue-m:#BFDBFE;
+  --gold:#F59E0B;--gold-l:#FFFBEB;
+  --green:#10B981;--green-l:#ECFDF5;
+  --red:#EF4444;--red-l:#FEF2F2;
+  --purple:#8B5CF6;--purple-l:#F5F3FF;
+  --orange:#F97316;--orange-l:#FFF7ED;
+  --pink:#EC4899;--pink-l:#FDF2F8;
+  --teal:#0D9488;--teal-l:#F0FDFA;
+  --sky:#3ABFF8;--sky-l:#E0F7FF;
+  --g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g300:#D1D5DB;--g400:#9CA3AF;--g500:#6B7280;--g600:#4B5563;--g700:#374151;--g900:#111827;
+  --r:12px;--rsm:8px;--rlg:16px;
+  --fs:17px;--fs-sm:15px;--fs-xs:13px;--fs-xxs:11px;
+  /* ── Couleurs des rôles v8 ── */
+  --role-directeur:#EF4444;
+  --role-administration:#F97316;
+  --role-animateur:#10B981;
+  --role-ambassadeur:#8B5CF6;
+  --role-resident:#3ABFF8;
+}
+body.large-text{--fs:20px;--fs-sm:18px;--fs-xs:16px;--fs-xxs:14px}
+body.large-text .ntab{font-size:16px;padding:10px 13px}
+body.large-text .sort-title,.body.large-text .post-nm{font-size:15px}
+body{font-family:'Nunito',sans-serif;background:#EEF2F7;color:var(--g900);height:100vh;display:flex;flex-direction:column;font-size:var(--fs);overflow:hidden;transition:font-size .2s;padding-bottom:0}
+body.high-contrast{background:#000;color:#fff}
+body.high-contrast .app-header,body.high-contrast .app-nav{background:#111;border-color:#444}
+body.high-contrast .card,body.high-contrast .post,body.high-contrast .sortie-card,body.high-contrast .quiz-card,body.high-contrast .menu-card,body.high-contrast .stat-c,body.high-contrast .sm-c,body.high-contrast .top-c,body.high-contrast .jeu-card,body.high-contrast .avis-card,body.high-contrast .composer,body.high-contrast .grp,body.high-contrast .fam-card,body.high-contrast .evt-card,body.high-contrast .admin-doc,body.high-contrast .bday-card{background:#1a1a1a;border-color:#555;color:#fff}
+body.high-contrast .ntab{color:#aaa}body.high-contrast .ntab.active{color:#fff;border-bottom-color:#fff}
+
+/* HEADER */
+.app-header{background:#fff;border-bottom:1px solid var(--g200);padding:0 .875rem;display:flex;align-items:center;justify-content:space-between;height:52px;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:7px}
+.logo-box{width:30px;height:30px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px}
+.logo-txt{font-weight:800;font-size:1rem}
+.logo-txt span{color:var(--blue)}
+.pro-badge{background:var(--gold-l);color:#92400E;border:1px solid #FDE68A;border-radius:20px;font-size:10px;font-weight:700;padding:2px 7px}
+.hdr-right{display:flex;align-items:center;gap:6px}
+.hdr-res{font-size:11px;color:var(--g500);background:var(--blue-l);border:1px solid var(--blue-m);padding:3px 9px;border-radius:20px}
+.hdr-btn{width:30px;height:30px;border-radius:50%;background:var(--g100);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;position:relative}
+.notif-dot{position:absolute;top:2px;right:2px;width:7px;height:7px;background:var(--red);border-radius:50%;border:2px solid #fff}
+.ava{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#D97706);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;cursor:pointer;flex-shrink:0}
+.access-bar{background:var(--g900);padding:5px 1rem;display:flex;gap:8px;align-items:center;flex-shrink:0}
+.access-bar.hidden{display:none}
+.abtn{padding:3px 10px;border-radius:20px;border:1px solid #555;background:none;color:#ccc;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;cursor:pointer}
+.abtn.on{background:#fff;color:#111;border-color:#fff}
+
+/* NAV — Grande taille senior-friendly */
+.app-nav{display:none}
+.app-nav::-webkit-scrollbar{display:none}
+.ntab{padding:12px 14px;border:none;background:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--g400);border-bottom:3px solid transparent;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .15s;min-width:64px}
+.ntab .ntab-ic{font-size:22px;line-height:1}
+.ntab .ntab-lbl{font-size:11px;font-weight:700}
+.ntab:hover{color:var(--blue);background:var(--blue-l)}
+.ntab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--blue-l)}
+.nbadge{background:var(--red);color:#fff;border-radius:10px;padding:1px 5px;font-size:9px;font-weight:700;position:absolute;top:-2px;right:-4px}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;padding:.625rem;max-width:860px;margin:0 auto;width:100%}
+.main::-webkit-scrollbar{width:3px}
+.main::-webkit-scrollbar-thumb{background:var(--g200)}
+.page{display:none}.page.active{display:block}
+
+/* =================== PAGE PLUS =================== */
+/* Grille de gros boutons senior-friendly pour accéder aux sections secondaires */
+.plus-header{background:linear-gradient(135deg,var(--blue),#1D4ED8);border-radius:var(--rlg);padding:1rem 1.25rem;color:#fff;margin-bottom:.875rem}
+.plus-header h2{font-size:1.05rem;font-weight:800;margin-bottom:3px}
+.plus-header p{font-size:var(--fs-xs);opacity:.85}
+.plus-grid{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;margin-bottom:.875rem}
+.plus-card{background:#fff;border:1.5px solid var(--g200);border-radius:var(--rlg);padding:1rem .875rem;display:flex;flex-direction:column;align-items:center;gap:.375rem;cursor:pointer;transition:all .18s;text-align:center;min-height:110px;justify-content:center}
+.plus-card:hover,.plus-card:active{border-color:var(--blue);background:var(--blue-l);transform:translateY(-2px);box-shadow:0 4px 12px rgba(37,99,235,.12)}
+.plus-card-ic{font-size:2rem;line-height:1;margin-bottom:2px}
+.plus-card-title{font-size:var(--fs-sm);font-weight:800;color:var(--g700)}
+.plus-card-desc{font-size:var(--fs-xs);color:var(--g500);line-height:1.3}
+/* Carte Direction : affichage conditionnel via JS */
+.plus-card.director-card{display:none}
+
+/* ── Badges de rôle v8 ── */
+.role-badge{display:inline-flex;align-items:center;gap:3px;font-size:var(--fs-xxs);font-weight:700;border-radius:20px;padding:1px 7px;border:1px solid currentColor}
+.role-badge.directeur{color:var(--role-directeur);background:#FEF2F2;border-color:#FECACA}
+.role-badge.administration{color:var(--role-administration);background:#FFF7ED;border-color:#FED7AA}
+.role-badge.animateur{color:var(--role-animateur);background:#ECFDF5;border-color:#A7F3D0}
+.role-badge.ambassadeur{color:var(--role-ambassadeur);background:#F5F3FF;border-color:#DDD6FE}
+.role-badge.resident{color:var(--role-resident);background:#E0F7FF;border-color:#BAE6FD}
+/* Avatar avec bordure de rôle */
+.ava-role{border:2.5px solid transparent}
+.ava-role.directeur{border-color:var(--role-directeur)}
+.ava-role.administration{border-color:var(--role-administration)}
+.ava-role.animateur{border-color:var(--role-animateur)}
+.ava-role.ambassadeur{border-color:var(--role-ambassadeur)}
+.ava-role.resident{border-color:var(--role-resident)}
+/* Badge Officiel sur cartes de sortie */
+.badge-officiel{background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border-radius:20px;font-size:var(--fs-xxs);font-weight:800;padding:2px 8px;display:inline-flex;align-items:center;gap:3px}
+
+/* ── Sélecteur de rôle dans le profil ── */
+.role-selector{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:.75rem}
+.role-opt{padding:8px 10px;border:2px solid var(--g200);border-radius:10px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--g600);background:#fff;text-align:center;transition:all .15s}
+.role-opt:hover{border-color:var(--g400)}
+.role-opt.sel-directeur{border-color:var(--role-directeur);background:#FEF2F2;color:var(--role-directeur)}
+.role-opt.sel-administration{border-color:var(--role-administration);background:#FFF7ED;color:var(--role-administration)}
+.role-opt.sel-animateur{border-color:var(--role-animateur);background:#ECFDF5;color:var(--role-animateur)}
+.role-opt.sel-ambassadeur{border-color:var(--role-ambassadeur);background:#F5F3FF;color:var(--role-ambassadeur)}
+.role-opt.sel-resident{border-color:var(--role-resident);background:#E0F7FF;color:var(--role-resident)}
+
+/* ── Signalement Technique v8 ── */
+.signal-tech-page{background:#fff;border-radius:var(--rlg);padding:1.25rem;margin-bottom:.625rem}
+.signal-tech-hero{background:linear-gradient(135deg,#374151,#1F2937);border-radius:var(--rlg);padding:1rem 1.25rem;color:#fff;margin-bottom:.875rem}
+.signal-tech-hero h2{font-size:1rem;font-weight:800;margin-bottom:2px}
+.signal-tech-hero p{font-size:var(--fs-xxs);opacity:.8}
+.signal-cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:.75rem}
+.signal-cat-btn{padding:10px 6px;border:2px solid var(--g200);border-radius:10px;background:#fff;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--g600);text-align:center;transition:all .15s}
+.signal-cat-btn.sel{border-color:var(--orange);background:var(--orange-l);color:#C2410C}
+.signal-tech-list{display:flex;flex-direction:column;gap:.5rem}
+.signal-item{background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:.75rem;display:flex;gap:10px;align-items:flex-start}
+.signal-item-ic{width:32px;height:32px;border-radius:8px;background:var(--orange-l);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.signal-item-body{flex:1}
+.signal-item-title{font-weight:700;font-size:var(--fs-sm);margin-bottom:2px}
+.signal-item-meta{font-size:var(--fs-xxs);color:var(--g400)}
+.signal-status{font-size:var(--fs-xxs);font-weight:700;border-radius:20px;padding:2px 8px}
+.signal-status.pending{background:#FEF3C7;color:#92400E}
+.signal-status.done{background:var(--green-l);color:#065F46}
+
+/* ── Page de signalement technique (overlay) ── */
+.modal-signal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:flex-end;justify-content:center;padding:0}
+.modal-signal.open{display:flex}
+.signal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:1.25rem;width:100%;max-width:480px;max-height:85vh;overflow-y:auto}
+/* UTILS */
+.card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.875rem}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin:.625rem 0 .375rem}
+.sec-title{font-weight:800;font-size:var(--fs-sm);color:var(--g700)}
+.sec-more{font-size:var(--fs-xxs);color:var(--blue);background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700}
+.btn-pri{width:100%;padding:.625rem;background:var(--blue);color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer;margin-top:.375rem}
+
+/* =================== ACCUEIL =================== */
+.welcome{background:var(--blue);border-radius:var(--rlg);padding:.875rem 1.25rem;color:#fff;margin-bottom:.625rem;display:flex;justify-content:space-between;align-items:center}
+.welcome h2{font-size:1.2rem;font-weight:800;margin-bottom:4px}
+.welcome p{font-size:var(--fs-xxs);opacity:.85}
+.wx{background:rgba(255,255,255,.18);border-radius:10px;padding:5px 10px;text-align:center}
+.wx-t{font-size:1.2rem;font-weight:800}.wx-s{font-size:10px;opacity:.8}
+.ai-tip{background:var(--purple-l);border:1px solid #C4B5FD;border-radius:var(--r);padding:.75rem;margin-bottom:.625rem;display:flex;gap:8px}
+.ai-ic{width:28px;height:28px;border-radius:8px;background:var(--purple);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;flex-shrink:0}
+.ai-body h4{font-size:var(--fs-sm);font-weight:700;color:#5B21B6;margin-bottom:3px}
+.ai-body p{font-size:var(--fs-xs);color:#6D28D9;line-height:1.5}
+.ai-chips{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.ai-chip{padding:3px 9px;background:#fff;border:1px solid #C4B5FD;border-radius:20px;font-size:var(--fs-xxs);font-weight:700;color:#5B21B6;cursor:pointer}
+
+/* Anniversaires accueil */
+.bday-strip{background:linear-gradient(135deg,#FDF2F8,#FEE2E2);border:1px solid #FBCFE8;border-radius:var(--r);padding:.75rem;margin-bottom:.625rem;display:flex;align-items:center;gap:10px;cursor:pointer}
+.bday-strip-ic{font-size:1.8rem;flex-shrink:0}
+.bday-strip h4{font-size:var(--fs);font-weight:800;color:#9D174D;margin-bottom:4px}
+.bday-strip p{font-size:var(--fs-sm);color:#BE185D}
+
+/* Annonce */
+.annonce-banner{background:linear-gradient(135deg,#1E3A5F,#2563EB);border-radius:var(--r);padding:.875rem;margin-bottom:.625rem;color:#fff;position:relative;overflow:hidden}
+.annonce-banner::before{content:'';position:absolute;right:-20px;top:-20px;width:80px;height:80px;background:rgba(255,255,255,.07);border-radius:50%}
+.annonce-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.annonce-title{font-weight:800;font-size:var(--fs-sm);display:flex;align-items:center;gap:6px}
+.annonce-role{font-size:var(--fs-xxs);background:rgba(255,255,255,.2);border-radius:20px;padding:2px 8px}
+.annonce-edit-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:4px 10px;font-size:var(--fs-xxs);font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.annonce-text{font-size:var(--fs-sm);line-height:1.7;opacity:.95;margin-bottom:.5rem}
+.annonce-photo{width:100%;border-radius:8px;height:90px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:1.8rem;cursor:pointer;border:1.5px dashed rgba(255,255,255,.3);margin-bottom:.5rem}
+.annonce-photo.has-photo{border-style:solid;font-size:1rem}
+.annonce-meta{font-size:var(--fs-xxs);opacity:.6}
+
+.stories{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:.625rem}
+.stories::-webkit-scrollbar{display:none}
+.story{flex-shrink:0;width:52px;text-align:center;cursor:pointer}
+.story-ring{width:48px;height:48px;border-radius:50%;border:2.5px solid var(--blue);padding:2px;margin:0 auto 3px}
+.story-ava{width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+.story-nm{font-size:9px;color:var(--g500);font-weight:700}
+.composer{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.75rem;margin-bottom:.625rem}
+.comp-row{display:flex;align-items:center;gap:8px}
+.comp-in{flex:1;border:1.5px solid var(--g200);border-radius:20px;padding:7px 13px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);color:var(--g400);cursor:pointer;background:var(--g50)}
+.comp-btns{display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--g100)}
+.comp-btn{flex:1;padding:6px;border:none;background:var(--g100);border-radius:7px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--g700)}
+.post{background:#fff;border-radius:var(--r);border:1px solid var(--g200);overflow:hidden;margin-bottom:.625rem}
+.post-hdr{padding:10px 12px 6px;display:flex;align-items:center;gap:8px}
+.post-ava{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0}
+.post-nm{font-weight:700;font-size:var(--fs)}
+.post-mt{font-size:var(--fs-xxs);color:var(--g400)}
+.post-body{padding:0 12px 8px;font-size:var(--fs);line-height:1.6;color:var(--g700)}
+.post-img{width:100%;height:120px;display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.post-react{padding:4px 12px;font-size:var(--fs-xs);color:var(--g500)}
+.post-acts{padding:5px 12px;border-top:1px solid var(--g100);display:flex}
+.pact{flex:1;padding:5px;border:none;background:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--g500);display:flex;align-items:center;justify-content:center;gap:4px;border-radius:7px}
+.pact:hover{background:var(--g100)}
+.pact.liked{color:var(--red)}
+.comments{padding:6px 12px;border-top:1px solid var(--g100)}
+.cmt{display:flex;gap:6px;margin-bottom:5px}
+.cmt-ava{width:22px;height:22px;border-radius:50%;background:var(--g200);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--g600);flex-shrink:0}
+.cmt-bub{background:var(--g100);border-radius:10px;padding:4px 8px;font-size:var(--fs-xs)}
+.cmt-bub strong{font-size:var(--fs-xxs);display:block}
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.625rem}
+.grp{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:10px;cursor:pointer}
+.grp-ic{font-size:1.4rem;margin-bottom:4px}
+.grp-nm{font-weight:700;font-size:var(--fs-sm)}
+.grp-ct{font-size:var(--fs-xxs);color:var(--g400)}
+.grp-prev{font-size:var(--fs-xs);color:var(--g600);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* =================== ANNIVERSAIRES =================== */
+.bday-hero{background:linear-gradient(135deg,#BE185D,#EC4899);border-radius:var(--rlg);padding:1rem 1.25rem;color:#fff;margin-bottom:.625rem;display:flex;align-items:center;gap:12px}
+.bday-hero-ic{font-size:2.5rem}
+.bday-hero h2{font-size:1rem;font-weight:800;margin-bottom:2px}
+.bday-hero p{font-size:var(--fs-xxs);opacity:.85}
+.bday-today{background:#fff;border-radius:var(--r);border:2px solid #FBCFE8;padding:.875rem;margin-bottom:.625rem}
+.bday-today-hdr{display:flex;align-items:center;gap:8px;margin-bottom:.625rem}
+.bday-today-title{font-weight:800;font-size:var(--fs-sm);color:#9D174D}
+.bday-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.75rem;margin-bottom:.5rem;display:flex;align-items:center;gap:10px}
+.bday-ava{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0}
+.bday-info{flex:1}
+.bday-name{font-weight:700;font-size:var(--fs-sm)}
+.bday-age{font-size:var(--fs-xs);color:var(--g500)}
+.bday-date{font-size:var(--fs-xs);color:var(--pink);font-weight:700}
+.bday-actions{display:flex;flex-direction:column;gap:4px}
+.bday-btn{padding:4px 10px;border:none;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xxs);font-weight:700}
+.bday-btn.wish{background:var(--pink-l);color:#BE185D;border:1px solid #FBCFE8}
+.bday-btn.sign{background:var(--purple-l);color:#5B21B6;border:1px solid #C4B5FD}
+.bday-upcoming{margin-top:.25rem}
+.bday-up-item{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.625rem .875rem;margin-bottom:.375rem;display:flex;align-items:center;justify-content:space-between}
+.bday-up-left{display:flex;align-items:center;gap:8px}
+.bday-up-ava{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff}
+.bday-up-name{font-weight:700;font-size:var(--fs-sm)}
+.bday-up-date{font-size:var(--fs-xs);color:var(--g500)}
+.bday-up-days{font-size:var(--fs-xxs);font-weight:700;color:var(--pink);background:var(--pink-l);border-radius:20px;padding:2px 8px}
+
+/* Livre d'or */
+.gdor-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.875rem;margin-bottom:.625rem}
+.gdor-title{font-weight:800;font-size:var(--fs-sm);color:var(--g700);margin-bottom:.625rem;display:flex;align-items:center;gap:6px}
+.gdor-msg{background:var(--gold-l);border:1px solid #FDE68A;border-radius:10px;padding:.625rem;margin-bottom:.5rem}
+.gdor-msg-hdr{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.gdor-msg-ava{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+.gdor-msg-nm{font-size:var(--fs-xs);font-weight:700}
+.gdor-msg-txt{font-size:var(--fs-xs);color:var(--g700);line-height:1.5;font-style:italic}
+.gdor-add-btn{width:100%;padding:7px;background:var(--pink-l);color:#BE185D;border:1.5px solid #FBCFE8;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer}
+
+/* =================== ÉVÉNEMENTS =================== */
+.evt-hero{background:linear-gradient(135deg,#0D9488,#059669);border-radius:var(--rlg);padding:1rem 1.25rem;color:#fff;margin-bottom:.625rem}
+.evt-hero h2{font-size:1rem;font-weight:800;margin-bottom:2px}
+.evt-hero p{font-size:var(--fs-xxs);opacity:.85}
+.evt-source-bar{display:flex;gap:6px;margin-bottom:.75rem;flex-wrap:wrap}
+.evt-src-btn{padding:5px 12px;border-radius:20px;border:1.5px solid var(--g200);background:#fff;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--g600);white-space:nowrap}
+.evt-src-btn.active{border-color:var(--teal);background:var(--teal-l);color:var(--teal)}
+.evt-ext-link{background:var(--teal-l);border:1px solid #99F6E4;border-radius:var(--r);padding:.75rem;margin-bottom:.625rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;text-decoration:none}
+.evt-ext-link:hover{background:#CCFBF1}
+.evt-ext-left h4{font-size:var(--fs-sm);font-weight:700;color:var(--teal);margin-bottom:2px}
+.evt-ext-left p{font-size:var(--fs-xs);color:var(--g500)}
+.evt-ext-ic{font-size:1.5rem}
+.evt-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.75rem;margin-bottom:.5rem;display:flex;gap:10px;cursor:pointer;transition:box-shadow .15s}
+.evt-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.evt-date-col{border-radius:9px;padding:6px 8px;text-align:center;min-width:44px;flex-shrink:0}
+.evt-day{font-size:1.1rem;font-weight:800}
+.evt-dow{font-size:9px;font-weight:700;text-transform:uppercase;margin-bottom:1px}
+.evt-mo{font-size:9px;font-weight:700;text-transform:uppercase}
+.evt-body{flex:1}
+.evt-title{font-weight:700;font-size:var(--fs-sm);margin-bottom:3px}
+.evt-det{font-size:var(--fs-xs);color:var(--g500);margin-bottom:4px}
+.evt-tags{display:flex;gap:4px;flex-wrap:wrap}
+.evt-tag{padding:2px 7px;border-radius:8px;font-size:var(--fs-xxs);font-weight:700}
+.evt-go-btn{padding:4px 10px;color:#fff;border:none;border-radius:7px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xxs);font-weight:700;align-self:flex-start;flex-shrink:0}
+
+/* =================== FAMILLE =================== */
+.fam-login{background:#fff;border-radius:var(--rlg);padding:1.5rem;margin-bottom:.625rem;text-align:center}
+.fam-login-ic{font-size:3rem;margin-bottom:.75rem}
+.fam-login h2{font-size:1rem;font-weight:800;margin-bottom:.5rem;color:var(--g900)}
+.fam-login p{font-size:var(--fs-xs);color:var(--g500);margin-bottom:1rem;line-height:1.5}
+.fam-code-row{display:flex;gap:6px;margin-bottom:.75rem}
+.fam-code-input{flex:1;padding:10px 12px;border:1.5px solid var(--g200);border-radius:10px;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;text-align:center;letter-spacing:.15em;outline:none}
+.fam-code-input:focus{border-color:var(--blue)}
+.fam-code-btn{padding:10px 16px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer}
+.fam-hint{font-size:var(--fs-xxs);color:var(--g400);margin-top:.5rem}
+.fam-dashboard{display:none}
+.fam-resident-card{background:linear-gradient(135deg,#1E3A5F,#2563EB);border-radius:var(--rlg);padding:1rem 1.25rem;color:#fff;margin-bottom:.625rem;display:flex;align-items:center;gap:12px}
+.fam-res-ava{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;background:rgba(255,255,255,.2);flex-shrink:0;border:2px solid rgba(255,255,255,.4)}
+.fam-res-name{font-size:1rem;font-weight:800;margin-bottom:2px}
+.fam-res-sub{font-size:var(--fs-xs);opacity:.8}
+.fam-res-status{font-size:var(--fs-xxs);background:rgba(16,185,129,.3);border:1px solid rgba(16,185,129,.5);border-radius:20px;padding:2px 8px;margin-top:4px;display:inline-block}
+.fam-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:.625rem}
+.fam-stat{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.625rem;text-align:center}
+.fam-stat-v{font-size:1.3rem;font-weight:800}
+.fam-stat-l{font-size:var(--fs-xxs);color:var(--g400);font-weight:700}
+.fam-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.875rem;margin-bottom:.625rem}
+.fam-card-title{font-weight:800;font-size:var(--fs-sm);color:var(--g700);margin-bottom:.625rem;display:flex;align-items:center;gap:6px}
+.fam-activity-item{display:flex;align-items:center;gap:8px;padding:.375rem 0;border-bottom:1px solid var(--g100)}
+.fam-activity-item:last-child{border-bottom:none}
+.fam-act-ic{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.fam-act-info{flex:1}
+.fam-act-nm{font-size:var(--fs-sm);font-weight:700}
+.fam-act-dt{font-size:var(--fs-xxs);color:var(--g400)}
+.fam-act-status{font-size:var(--fs-xxs);font-weight:700;border-radius:20px;padding:2px 7px}
+.fam-photo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.fam-photo{height:65px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer}
+.fam-msg-btn{width:100%;padding:8px;background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+
+/* =================== ADMINISTRATIF =================== */
+.admin-hero{background:linear-gradient(135deg,#374151,#111827);border-radius:var(--rlg);padding:1rem 1.25rem;color:#fff;margin-bottom:.625rem}
+.admin-hero h2{font-size:1rem;font-weight:800;margin-bottom:2px}
+.admin-hero p{font-size:var(--fs-xxs);opacity:.75}
+.admin-section-title{font-weight:800;font-size:var(--fs-xs);color:var(--g400);text-transform:uppercase;letter-spacing:.05em;margin:.75rem 0 .375rem}
+.admin-doc{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.75rem;margin-bottom:.375rem;display:flex;align-items:center;gap:10px;cursor:pointer;transition:box-shadow .15s}
+.admin-doc:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.admin-doc-ic{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.admin-doc-info{flex:1}
+.admin-doc-nm{font-weight:700;font-size:var(--fs-sm)}
+.admin-doc-dt{font-size:var(--fs-xxs);color:var(--g400)}
+.admin-doc-dl{padding:4px 10px;border:1.5px solid var(--g200);border-radius:7px;font-family:'Nunito',sans-serif;font-size:var(--fs-xxs);font-weight:700;color:var(--g500);background:#fff;cursor:pointer;flex-shrink:0}
+.admin-rdv-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.875rem;margin-bottom:.625rem}
+.admin-rdv-title{font-weight:800;font-size:var(--fs-sm);color:var(--g700);margin-bottom:.625rem;display:flex;align-items:center;gap:6px}
+.admin-rdv-row{display:flex;gap:6px;margin-bottom:.375rem}
+.admin-rdv-input{flex:1;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);outline:none}
+.admin-rdv-input:focus{border-color:var(--blue)}
+.admin-rdv-sel{width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);background:#fff;margin-bottom:.375rem;outline:none}
+.admin-rdv-btn{width:100%;padding:7px;background:var(--g900);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer;margin-top:.25rem}
+.admin-signal-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.875rem;margin-bottom:.625rem}
+.admin-signal-title{font-weight:800;font-size:var(--fs-sm);color:var(--g700);margin-bottom:.625rem;display:flex;align-items:center;gap:6px}
+.admin-signal-types{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:.625rem}
+.astype{padding:8px;border:1.5px solid var(--g200);border-radius:8px;text-align:center;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--g600);background:#fff}
+.astype.sel{border-color:var(--orange);background:var(--orange-l);color:#C2410C}
+.admin-signal-textarea{width:100%;padding:8px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);resize:none;outline:none;margin-bottom:.375rem}
+.admin-signal-textarea:focus{border-color:var(--orange)}
+.admin-signal-btn{width:100%;padding:7px;background:var(--orange);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer}
+
+/* =================== MESSAGERIE =================== */
+.msg-page{display:flex;flex-direction:column;height:calc(100vh - 115px)}
+.chat-shell{display:flex;flex-direction:column;flex:1;overflow:hidden}
+.chat-hdr-wa{background:#075E54;padding:.5rem .875rem;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.chat-hdr-wa-title{font-size:var(--fs-sm);font-weight:700;color:#fff}
+.chat-tabs-wa{background:#075E54;display:flex;border-top:1px solid rgba(255,255,255,.15);flex-shrink:0}
+.chat-tab-wa{flex:1;padding:7px 0;border:none;background:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,.6);border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s}
+.chat-tab-wa.on{color:#fff;border-bottom-color:#25D366}
+.chat-tab-ic{font-size:13px}
+.ctwbadge{background:#EF4444;color:#fff;border-radius:10px;padding:1px 4px;font-size:9px;font-weight:500}
+.chat-view{display:none;flex:1;flex-direction:column;overflow:hidden}
+.chat-view.on{display:flex}
+.chat-sbar{padding:.375rem .625rem;background:var(--g50);border-bottom:1px solid var(--g200)}
+.chat-sbar input{width:100%;padding:5px 12px;border:1px solid var(--g200);border-radius:20px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);background:#fff;outline:none}
+.clist-wa{flex:1;overflow-y:auto}
+.clist-wa::-webkit-scrollbar{width:2px}
+.citem-wa{display:flex;align-items:center;gap:10px;padding:.5rem .875rem;cursor:pointer;border-bottom:1px solid var(--g100);background:#fff;transition:background .1s}
+.citem-wa:hover,.citem-wa.act{background:var(--g50)}
+.citem-wa.unrd{background:#F0FDF4}
+.cava-wa{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0;position:relative}
+.dot-on-wa{position:absolute;bottom:0;right:0;width:9px;height:9px;background:#25D366;border-radius:50%;border:2px solid #fff}
+.cbody-wa{flex:1;min-width:0}
+.ctop-wa{display:flex;justify-content:space-between;margin-bottom:2px}
+.cname-wa{font-size:var(--fs-xs);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctime-wa{font-size:9px;color:var(--g400);flex-shrink:0;margin-left:4px}
+.cbot-wa{display:flex;justify-content:space-between;align-items:center}
+.cprev-wa{font-size:10px;color:var(--g500);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.cunrd-wa{background:#25D366;color:#fff;border-radius:10px;padding:1px 5px;font-size:9px;font-weight:700;flex-shrink:0;margin-left:4px}
+.new-conv-btn{margin:.5rem .625rem;padding:.5rem;background:#25D366;color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer}
+.chatpanel-wa{display:none;flex:1;flex-direction:column;overflow:hidden}
+.chatpanel-wa.on{display:flex}
+.chdr-wa{background:#075E54;padding:.5rem .875rem;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.backbtn-wa{width:26px;height:26px;border:none;background:none;cursor:pointer;font-size:16px;color:#fff}
+.chava-wa{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff;flex-shrink:0}
+.chname-wa{font-size:var(--fs-sm);font-weight:700;color:#fff}
+.chstatus-wa{font-size:10px;color:#8ad3c2}
+.msgs-wa{flex:1;overflow-y:auto;padding:.625rem;display:flex;flex-direction:column;gap:4px;background:#ECE5DD}
+.msgs-wa::-webkit-scrollbar{width:2px}
+.datesep-wa{text-align:center;margin:.25rem 0}
+.datesep-wa span{background:rgba(255,255,255,.85);border-radius:20px;padding:2px 12px;font-size:10px;color:#555}
+.bw-wa{display:flex;gap:4px;max-width:80%}
+.bw-wa.me{align-self:flex-end;flex-direction:row-reverse}
+.bw-wa.me .bava-sm-wa{display:none}
+.bava-sm-wa{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;align-self:flex-end}
+.bcol-wa{display:flex;flex-direction:column}
+.bw-wa.me .bcol-wa{align-items:flex-end}
+.bsender-wa{font-size:9px;font-weight:700;color:#075E54;margin-bottom:2px}
+.bubble-wa{padding:6px 9px;font-size:var(--fs-sm);line-height:1.4;display:inline-block;border-radius:7.5px;box-shadow:0 1px 1px rgba(0,0,0,.1)}
+.bubble-wa.them{background:#fff;color:#111;border-top-left-radius:0}
+.bubble-wa.me{background:#DCF8C6;color:#111;border-top-right-radius:0}
+.bmeta-wa{font-size:9px;color:#999;margin-top:2px;display:flex;align-items:center;gap:2px}
+.bw-wa.me .bmeta-wa{justify-content:flex-end}
+.rtick-wa{color:#53BDEB;font-size:10px}
+.ibar-wa{background:#F0F0F0;border-top:1px solid #ddd;padding:.5rem .625rem;display:flex;gap:5px;align-items:center;flex-shrink:0}
+.iwrap-wa{flex:1;border-radius:20px;padding:6px 12px;display:flex;align-items:center;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.iwrap-wa input{flex:1;border:none;outline:none;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);background:none;color:#111}
+.sendbtn-wa{width:34px;height:34px;border-radius:50%;background:#25D366;border:none;cursor:pointer;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ncview-wa{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#fff}
+.nctypes-wa{display:flex;gap:6px;padding:.5rem .75rem;border-bottom:1px solid var(--g100)}
+.nctbtn-wa{flex:1;padding:6px;border-radius:8px;border:1px solid var(--g200);background:#fff;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--g500);cursor:pointer}
+.nctbtn-wa.on{border-color:#25D366;background:#F0FDF4;color:#065F46}
+.ncinfo-wa{padding:.375rem .75rem;font-size:var(--fs-xs);border-bottom:1px solid var(--g100)}
+.nclist-wa{flex:1;overflow-y:auto}
+.ncitem-wa{display:flex;align-items:center;gap:10px;padding:.5rem .875rem;cursor:pointer;border-bottom:1px solid var(--g100);transition:background .1s}
+.ncitem-wa:hover{background:var(--g50)}
+.ncitem-wa.sel{background:#F0FDF4}
+.ncava-wa{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff}
+.ncbody-wa{flex:1}
+.ncname-wa{font-size:var(--fs-xs);font-weight:700}
+.ncrole-wa{font-size:var(--fs-xxs);color:var(--g400)}
+.ncchk-wa{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--g300);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.ncchk-wa.on{background:#25D366;border-color:#25D366}
+.ncgo-wa{margin:.5rem .625rem;padding:.5rem;background:#25D366;color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer}
+.ncgo-wa:disabled{background:var(--g300);cursor:not-allowed}
+
+/* =================== SORTIES =================== */
+.sortie-section-hdr{border-radius:var(--r);padding:.75rem 1rem;margin-bottom:.5rem;display:flex;align-items:center;justify-content:space-between}
+.sortie-section-hdr.residence{background:linear-gradient(135deg,#F97316,#EA580C);color:#fff}
+.sortie-section-hdr.inter{background:linear-gradient(135deg,#1D4ED8,#7C3AED);color:#fff}
+.srt-sec-title{font-weight:800;font-size:var(--fs-sm);display:flex;align-items:center;gap:6px}
+.srt-sec-sub{font-size:var(--fs-xxs);opacity:.8;margin-top:2px}
+.srt-status-pill{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3)}
+.srt-status-pill.active{background:rgba(16,185,129,.3);border-color:rgba(16,185,129,.5);color:#A7F3D0}
+.inter-res-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.inter-res-chip{background:rgba(255,255,255,.18);border-radius:20px;padding:2px 8px;font-size:var(--fs-xxs);font-weight:700;color:#fff}
+.sortie-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.75rem;margin-bottom:.5rem;display:flex;gap:10px;cursor:pointer;transition:box-shadow .15s}
+.sortie-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.sort-date{border-radius:9px;padding:6px 8px;text-align:center;min-width:44px;flex-shrink:0}
+.sort-date.res{background:var(--orange-l)}
+.sort-date.inter{background:var(--blue-l)}
+.sort-day{font-size:1.1rem;font-weight:800}
+.sort-day.res{color:var(--orange)}
+.sort-day.inter{color:var(--blue)}
+.sort-dow{font-size:9px;font-weight:700;text-transform:uppercase;margin-bottom:1px}
+.sort-dow.res{color:var(--orange)}
+.sort-dow.inter{color:var(--blue)}
+.sort-mo{font-size:9px;font-weight:700;text-transform:uppercase}
+.sort-mo.res{color:var(--orange)}
+.sort-mo.inter{color:var(--blue)}
+.sort-info{flex:1}
+.sort-title{font-weight:700;font-size:var(--fs-sm)}
+.sort-det{font-size:var(--fs-xs);color:var(--g500)}
+.sort-badge{padding:2px 7px;border-radius:20px;font-size:var(--fs-xxs);font-weight:700;align-self:flex-start;flex-shrink:0}
+.sb-locale{background:#FFF7ED;color:#C2410C}
+.sb-region{background:#EFF6FF;color:#1E40AF}
+.sort-footer{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
+.sort-inscrits{font-size:var(--fs-xxs);color:var(--g500)}
+.sort-btn{padding:4px 10px;color:#fff;border:none;border-radius:7px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xxs);font-weight:700}
+.sort-btn.res{background:var(--orange)}
+.sort-btn.inter{background:var(--blue)}
+
+/* =================== JEUX =================== */
+.quiz-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.875rem;margin-bottom:.625rem}
+.quiz-q{font-weight:700;font-size:var(--fs-sm);margin-bottom:.625rem;line-height:1.4}
+.quiz-opts{display:flex;flex-direction:column;gap:5px}
+.quiz-opt{padding:.5rem .875rem;border:1.5px solid var(--g200);border-radius:10px;cursor:pointer;font-size:var(--fs-sm);font-weight:600;transition:all .15s;text-align:left;background:#fff;font-family:'Nunito',sans-serif}
+.quiz-opt:hover{border-color:var(--blue);background:var(--blue-l)}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-l);color:#065F46}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-l);color:#991B1B}
+.quiz-pts{font-size:.9rem;font-weight:800;color:var(--blue)}
+.quiz-theme-badge{font-size:var(--fs-xxs);background:var(--purple-l);color:#5B21B6;border-radius:20px;padding:2px 8px;font-weight:700}
+.jeux-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.625rem}
+.jeu-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);overflow:hidden;cursor:pointer;transition:box-shadow .15s}
+.jeu-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.jeu-img{height:70px;display:flex;align-items:center;justify-content:center;font-size:2rem}
+.jeu-body{padding:.5rem .625rem}
+.jeu-nm{font-weight:700;font-size:var(--fs-sm)}
+.jeu-det{font-size:var(--fs-xxs);color:var(--g500)}
+.jeu-tags{display:flex;gap:4px;margin-top:4px}
+.jtag{padding:2px 6px;border-radius:8px;font-size:var(--fs-xxs);font-weight:700}
+.jeu-footer{display:flex;justify-content:space-between;align-items:center;margin-top:5px}
+.play-btn{padding:4px 9px;background:var(--blue);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xxs);font-weight:700}
+.score-badge{font-size:var(--fs-xxs);color:var(--g400)}
+.next-quiz-btn{padding:5px 12px;background:var(--blue);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700}
+
+/* =================== RESTAURANT =================== */
+.resto-hero{background:var(--green);border-radius:var(--rlg);padding:.875rem 1.25rem;color:#fff;margin-bottom:.625rem;display:flex;justify-content:space-between;align-items:center}
+.resto-hero h2{font-size:1rem;font-weight:800;margin-bottom:2px}
+.resto-hero p{font-size:var(--fs-xxs);opacity:.85}
+.resto-badge-live{background:rgba(255,255,255,.25);border-radius:8px;padding:5px 9px;font-size:var(--fs-xxs);font-weight:700;text-align:center}
+.day-tabs{display:flex;gap:4px;overflow-x:auto;margin-bottom:.625rem}
+.day-tabs::-webkit-scrollbar{display:none}
+.dtab{padding:5px 11px;border-radius:20px;border:1.5px solid var(--g200);background:#fff;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--g600);white-space:nowrap}
+.dtab.active{border-color:var(--green);background:var(--green-l);color:#065F46}
+.menu-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);overflow:hidden;margin-bottom:.625rem}
+.menu-service{padding:.5rem .875rem;background:var(--g50);border-bottom:1px solid var(--g100);font-weight:700;font-size:var(--fs-xs);color:var(--g700);display:flex;align-items:center;gap:6px}
+.menu-row{padding:.5rem .875rem;border-bottom:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
+.menu-row:last-child{border-bottom:none}
+.menu-course{font-size:var(--fs-xxs);font-weight:700;color:var(--g400);text-transform:uppercase;margin-bottom:2px}
+.menu-dish{font-size:var(--fs-sm);font-weight:600;color:var(--g900)}
+.menu-sub{font-size:var(--fs-xxs);color:var(--g500)}
+.menu-tags{display:flex;gap:4px;margin-top:3px}
+.mtag{padding:1px 5px;border-radius:6px;font-size:var(--fs-xxs);font-weight:700}
+.mtag-bio{background:#D1FAE5;color:#065F46}
+.mtag-local{background:#DBEAFE;color:#1E40AF}
+.mtag-vege{background:#FEF3C7;color:#92400E}
+.menu-vote{display:flex;gap:4px}
+.vote-btn{padding:2px 7px;border:1px solid var(--g200);background:#fff;border-radius:7px;cursor:pointer;font-size:var(--fs-xxs);font-family:'Nunito',sans-serif}
+.vote-btn.voted{background:var(--green-l);border-color:var(--green)}
+.avis-card{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.875rem;margin-bottom:.625rem}
+.avis-title{font-weight:700;font-size:var(--fs-sm);margin-bottom:.5rem}
+.avis-row{display:flex;gap:8px;margin-bottom:5px}
+.avis-ava2{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0}
+.avis-body{flex:1}
+.avis-nm{font-weight:700;font-size:var(--fs-xs)}
+.avis-txt{font-size:var(--fs-xs);color:var(--g600);line-height:1.4}
+.stars{color:var(--gold)}
+.suggest-btn{width:100%;margin-top:.625rem;padding:7px;background:var(--green-l);color:#065F46;border:1.5px solid #A7F3D0;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer}
+
+/* =================== STATS =================== */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.625rem}
+.stat-c{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.75rem;text-align:center}
+.stat-v{font-size:1.6rem;font-weight:800;line-height:1}
+.stat-l{font-size:var(--fs-xs);color:var(--g500);margin-top:3px;font-weight:700}
+.stat-s{font-size:var(--fs-xxs);color:var(--g400);margin-top:2px}
+.smiley-row{display:flex;gap:8px;margin-bottom:.625rem}
+.sm-c{flex:1;background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.625rem;text-align:center}
+.sm-ic{font-size:1.5rem}
+.sm-pct{font-size:1rem;font-weight:800;margin-top:2px}
+.sm-lb{font-size:var(--fs-xxs);color:var(--g400);font-weight:700}
+.top-c{background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.875rem;margin-bottom:.625rem}
+.top-c h4{font-weight:800;font-size:var(--fs-sm);margin-bottom:.625rem}
+.top-item{display:flex;align-items:center;gap:8px;margin-bottom:.5rem}
+.top-rk{width:22px;height:22px;border-radius:50%;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--g500);flex-shrink:0}
+.top-rk.r1{background:var(--gold-l);color:#92400E}
+.top-bw{flex:1}
+.top-bl{font-size:var(--fs-xs);font-weight:700;margin-bottom:3px}
+.top-bar{height:5px;background:var(--g100);border-radius:3px;overflow:hidden}
+.top-bf{height:100%;background:var(--blue);border-radius:3px}
+.top-pct{font-size:var(--fs-xs);font-weight:700;color:var(--g500);flex-shrink:0;width:30px;text-align:right}
+
+/* =================== TABLEAU DE BORD DIRECTION =================== */
+.dash-hero{background:linear-gradient(135deg,#1E3A5F,#2563EB);border-radius:var(--rlg);padding:1rem 1.25rem;color:#fff;margin-bottom:.625rem}
+.dash-hero h2{font-size:1rem;font-weight:800;margin-bottom:2px}
+.dash-hero p{font-size:var(--fs-xxs);opacity:.8}
+.dash-export-row{display:flex;gap:8px;margin-bottom:.625rem}
+.dash-export-btn{flex:1;padding:10px;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.dash-export-btn.monthly{background:var(--green);color:#fff}
+.dash-export-btn.quarterly{background:var(--purple);color:#fff}
+/* =================== PROFIL RÉSIDENT =================== */
+.profil-modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150;align-items:flex-end;justify-content:center;padding:0}
+.profil-modal-ov.open{display:flex}
+.profil-sheet{background:#fff;border-radius:20px 20px 0 0;padding:1.25rem;width:100%;max-width:480px;max-height:85vh;overflow-y:auto}
+.profil-sheet-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.profil-ava-big{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#fff;background:linear-gradient(135deg,var(--gold),#D97706);margin:0 auto .75rem;position:relative;cursor:pointer;overflow:hidden}
+.profil-ava-big img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.profil-ava-edit{position:absolute;bottom:0;right:0;width:22px;height:22px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff}
+.profil-phrase{width:100%;padding:9px 12px;border:1.5px solid var(--g200);border-radius:10px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);outline:none;color:var(--g700);margin-bottom:4px}
+.profil-phrase:focus{border-color:var(--blue)}
+.profil-charcount{font-size:var(--fs-xxs);color:var(--g400);text-align:right;margin-bottom:.75rem}
+.profil-save-btn{width:100%;padding:10px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer}
+.post-phrase{font-size:var(--fs-xxs);color:var(--g400);font-style:italic;margin-top:1px}
+/* =================== COMMANDE VOCALE =================== */
+/* =================== BOTTOM NAV v9 =================== */
+.bottom-nav{position:fixed;bottom:0;left:0;width:100%;background:#fff;border-top:1.5px solid var(--g200);display:flex;height:72px;z-index:95;max-width:860px;left:50%;transform:translateX(-50%)}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--g400);cursor:pointer;gap:3px;border:none;background:none;font-family:'Nunito',sans-serif;transition:color .15s;padding:8px 0}
+.bnav-btn .bnav-ic{font-size:24px;line-height:1}
+.bnav-btn.active{color:var(--blue)}
+.bnav-badge{background:var(--red);color:#fff;font-size:8px;font-weight:700;border-radius:10px;padding:1px 4px;position:absolute;top:-2px;right:-4px}
+.bnav-ic-wrap{position:relative;display:inline-block}
+.mic-fab{position:fixed;bottom:80px;right:20px;width:54px;height:54px;border-radius:50%;background:var(--blue);color:#fff;border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 16px rgba(37,99,235,.45);display:flex;align-items:center;justify-content:center;z-index:90;transition:transform .15s}
+.mic-fab:hover{transform:scale(1.08)}
+.mic-fab.listening{background:var(--red);animation:mic-pulse 1.2s infinite}
+@keyframes mic-pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}50%{box-shadow:0 0 0 12px rgba(239,68,68,0)}}
+.mic-inline{width:32px;height:32px;border-radius:50%;background:var(--blue-l);border:1.5px solid var(--blue-m);color:var(--blue);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.mic-inline.listening{background:var(--red-l);border-color:var(--red);color:var(--red)}
+.mic-feedback{background:var(--blue-l);border:1px solid var(--blue-m);border-radius:10px;padding:7px 12px;font-size:var(--fs-xs);color:var(--blue);font-weight:700;margin-top:5px;display:none;align-items:center;gap:6px}
+.mic-feedback.show{display:flex}
+.mic-wave{display:flex;align-items:center;gap:2px;height:16px}
+.mic-wave span{width:3px;background:var(--blue);border-radius:3px;animation:wave .8s ease-in-out infinite}
+.mic-wave span:nth-child(1){animation-delay:0s;height:6px}
+.mic-wave span:nth-child(2){animation-delay:.15s;height:12px}
+.mic-wave span:nth-child(3){animation-delay:.3s;height:8px}
+.mic-wave span:nth-child(4){animation-delay:.45s;height:14px}
+.mic-wave span:nth-child(5){animation-delay:.6s;height:5px}
+@keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.8)}}
+/* =================== MODALES =================== */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:1rem}
+.modal-ov.open{display:flex}
+.modal{background:#fff;border-radius:var(--rlg);padding:1.25rem;width:100%;max-width:380px;max-height:90vh;overflow-y:auto}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.875rem}
+.modal-title{font-weight:800;font-size:var(--fs-sm)}
+.modal-cls{width:26px;height:26px;border-radius:50%;background:var(--g100);border:none;cursor:pointer;font-size:13px}
+.fg{margin-bottom:.75rem}
+.fl{font-size:var(--fs-xxs);font-weight:700;color:var(--g500);display:block;margin-bottom:4px}
+.fi{width:100%;padding:8px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);outline:none;color:var(--g700)}
+.fi:focus{border-color:var(--blue)}
+.fsel{width:100%;padding:8px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);outline:none;background:#fff}
+
+/* Modal annonce */
+.modal-annonce{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:1rem}
+.modal-annonce.open{display:flex}
+.modal-ann-box{background:#fff;border-radius:var(--rlg);padding:1.25rem;width:100%;max-width:400px;max-height:90vh;overflow-y:auto}
+.modal-ann-box h3{font-weight:800;font-size:var(--fs-sm);margin-bottom:.875rem;display:flex;align-items:center;gap:6px}
+.ann-field{margin-bottom:.75rem}
+.ann-label{font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:4px;display:block}
+.ann-textarea{width:100%;padding:8px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);line-height:1.5;resize:none;outline:none;color:var(--g700)}
+.ann-textarea:focus{border-color:var(--blue)}
+.ann-photo-zone{width:100%;padding:14px;border:2px dashed var(--g200);border-radius:8px;text-align:center;font-size:var(--fs-xs);color:var(--g400);cursor:pointer;background:var(--g50)}
+.ann-photo-zone:hover{border-color:var(--blue);color:var(--blue)}
+.ann-btns{display:flex;gap:8px;margin-top:.875rem}
+.ann-btn-cancel{flex:1;padding:8px;border:1.5px solid var(--g200);background:#fff;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;color:var(--g500)}
+.ann-btn-save{flex:2;padding:8px;background:var(--blue);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700}
+
+/* Livre d'or modal */
+.modal-gdor{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:1rem}
+.modal-gdor.open{display:flex}
+.modal-gdor-box{background:#fff;border-radius:var(--rlg);padding:1.25rem;width:100%;max-width:380px}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--g900);color:#fff;padding:8px 18px;border-radius:20px;font-size:var(--fs-xs);font-weight:700;opacity:0;transition:all .3s;z-index:200;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ONBOARDING DOTS */
+.onb-dot{width:10px;height:10px;border-radius:50%;background:var(--g200);transition:background .2s}
+.onb-dot.active{background:var(--blue)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="app-header">
+  <div class="logo">
+    <div class="logo-box">V</div>
+    <div class="logo-txt"><span>Vie</span>Sociale</div>
+    <div class="pro-badge">⭐ v10 PRO</div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-res">🏠 Les Acacias</div>
+    <button class="hdr-btn" onclick="toggleAccessBar()" title="Accessibilité">♿</button>
+    <button class="hdr-btn"><span>🔔</span><div class="notif-dot"></div></button>
+    <div class="ava" onclick="showT('Profil ML')">ML</div>
+  </div>
+</div>
+
+<!-- BARRE ACCESSIBILITÉ -->
+<div class="access-bar hidden" id="access-bar">
+  <span style="color:#888;font-size:11px;font-weight:700">Accessibilité :</span>
+  <button class="abtn" id="btn-large" onclick="toggleLargeText()">🔤 Grand texte</button>
+  <button class="abtn" id="btn-contrast" onclick="toggleContrast()">🌗 Contraste élevé</button>
+  <button class="abtn" onclick="toggleAccessBar()">✕ Fermer</button>
+</div>
+
+<!-- ===== NAV v9 — 5 onglets principaux ===== -->
+<!-- Ordre : Accueil | Messages | Activités | Restaurant | Plus -->
+<!-- sont désormais accessibles via la page "Plus" (voir page-plus ci-dessous) -->
+<div class="app-nav" id="app-nav">
+  <!-- 1. Accueil -->
+  <button class="ntab active" id="tab-accueil" onclick="goTo('accueil')">
+    <span class="ntab-ic">🏠</span><span class="ntab-lbl">Accueil</span>
+  </button>
+  <!-- 2. Messages -->
+  <button class="ntab" id="tab-messages" onclick="goTo('messages')">
+    <span class="ntab-ic">💬</span><span class="ntab-lbl">Messages</span>
+    <span class="nbadge" style="position:relative;top:0;right:0">3</span>
+  </button>
+  <!-- 3. Activités -->
+  <button class="ntab" id="tab-sorties" onclick="goTo('sorties')">
+    <span class="ntab-ic">🎯</span><span class="ntab-lbl">Activités</span>
+  </button>
+  <!-- 4. Restaurant : masqué en Starter, visible Essentiel/Premium -->
+  <button class="ntab" id="tab-restaurant" onclick="goTo('restaurant')" style="display:none">
+    <span class="ntab-ic">🍽️</span><span class="ntab-lbl">Restaurant</span>
+  </button>
+  <!-- 5. Plus : accès à toutes les autres sections -->
+  <button class="ntab" id="tab-plus" onclick="goTo('plus')">
+    <span class="ntab-ic">⋯</span><span class="ntab-lbl">Plus</span>
+  </button>
+
+  <!-- Onglets cachés — conservés pour navigation interne (goTo depuis la page Plus) -->
+  <button class="ntab" id="tab-famille" onclick="goTo('famille')" style="display:none"></button>
+  <button class="ntab" id="tab-services" onclick="goTo('services')" style="display:none"></button>
+  <button class="ntab director-only" id="tab-dashboard" onclick="goTo('dashboard')" style="display:none"></button>
+</div>
+
+<div class="main" id="main-scroll">
+
+<!-- =================== ACCUEIL =================== -->
+<div class="page active" id="page-accueil">
+  <div class="welcome">
+    <div><h2>Bonjour à tous ! 🌞</h2><p>Dimanche 13 avril · 47 résidents connectés</p></div>
+    <div class="wx"><div class="wx-t">21°</div><div class="wx-s">☁️ La Ciotat</div></div>
+  </div>
+
+  <!-- Anniversaire du jour -->
+  <div class="bday-strip">
+    <div class="bday-strip-ic">🎂</div>
+    <div>
+      <h4>C'est l'anniversaire de Simone Martin aujourd'hui !</h4>
+      <p>Cliquez pour lui souhaiter et signer le livre d'or 🥳</p>
+    </div>
+  </div>
+
+  <!-- Annonce -->
+  <div class="annonce-banner">
+    <div class="annonce-hdr">
+      <div class="annonce-title">📣 L'équipe vous parle <span class="annonce-role" id="annonce-role-label" style="background:rgba(255,255,255,.25);font-size:var(--fs-xxs);padding:2px 8px;border-radius:20px">Sophie Bernard · Directrice</span></div>
+      <button class="annonce-edit-btn" onclick="openAnnonce()">✏️ Modifier</button>
+    </div>
+    <div style="font-size:var(--fs-xxs);opacity:.65;margin-bottom:.5rem;display:flex;align-items:center;gap:5px">
+      🔒 <span>Seuls la direction, les animateurs et l'administration peuvent écrire ici</span>
+    </div>
+    <div class="annonce-text" id="annonce-text">Bienvenue à tous ! Nous sommes ravis d'accueillir cette semaine notre nouvelle résidente Mme Dupont. Un pot d'accueil est organisé vendredi à 16h en salle commune. Venez nombreux ! 🌸</div>
+    <div class="annonce-photo has-photo" id="annonce-photo-zone" onclick="openAnnonce()">🌸 Photo de l'événement — Cliquez pour modifier</div>
+    <div class="annonce-meta" id="annonce-meta">Publié par Sophie Bernard · Directrice · Aujourd'hui à 09h00</div>
+  </div>
+
+  <div class="ai-tip">
+    <div class="ai-ic">✨</div>
+    <div class="ai-body">
+      <h4>Suggestion IA du jour</h4>
+      <p>Journée idéale pour une sortie ! 3 résidents adorent la pétanque et le tournoi du club voisin est ce soir.</p>
+      <div class="ai-chips">
+        <span class="ai-chip" onclick="goTo('sorties')">🎲 Tournoi pétanque</span>
+        <span class="ai-chip" onclick="showT('Anniversaires — fêtés sur l\'accueil ! 🎂')">🎂 Anniversaire Simone</span>
+        <span class="ai-chip" onclick="showT('Événements disponibles en mairie et offices de tourisme 🎭')">🎉 Événements dept.</span>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="composer">
+    <div class="comp-row">
+      <div class="ava" id="header-ava" onclick="openProfil()" title="Mon profil">ML</div>
+      <div class="comp-in" onclick="openM('post')">Ajouter une publication (équipe uniquement)…</div>
+      <button class="mic-inline" id="mic-inline-btn" onclick="toggleMicInline()" title="Dicter votre message">🎤</button>
+    </div>
+    <div class="mic-feedback" id="mic-feedback-inline">
+      <div class="mic-wave"><span></span><span></span><span></span><span></span><span></span></div>
+      <span id="mic-feedback-txt">J'écoute…</span>
+    </div>
+    <div class="comp-btns">
+      <button class="comp-btn" onclick="openM('post')">📷 Photo</button>
+      <button class="comp-btn" onclick="openM('post')">🎵 Moment</button>
+      <button class="comp-btn" onclick="openM('post')">🎂 Événement</button>
+    </div>
+  </div>
+
+  <!-- ── LA PAROLE AUX RÉSIDENTS ── -->
+  <div style="background:#fff;border-radius:var(--r);border:2px solid var(--blue-m);padding:.875rem;margin-bottom:.625rem">
+    <!-- Titre avec cadenas résident -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--sky),#0284C7);display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;flex-shrink:0">💬</div>
+        <div>
+          <div style="font-weight:800;font-size:var(--fs-sm);color:var(--g900)">La parole aux résidents</div>
+          <div style="font-size:var(--fs-xxs);color:var(--g400)">🔒 Réservé aux résidents de la résidence</div>
+        </div>
+      </div>
+    </div>
+    <!-- Compositeur résident -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:.625rem">
+      <div class="ava" style="background:linear-gradient(135deg,var(--gold),#D97706);flex-shrink:0">ML</div>
+      <div style="flex:1;border:1.5px solid var(--blue-m);border-radius:20px;padding:10px 14px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);color:var(--g400);cursor:pointer;background:var(--blue-l)" onclick="openM('post')">Partagez un moment avec vos voisins…</div>
+    </div>
+    <div style="display:flex;gap:6px">
+      <button style="flex:1;padding:8px;border:none;background:var(--blue-l);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--blue)" onclick="openM('post')">📷 Photo</button>
+      <button style="flex:1;padding:8px;border:none;background:var(--blue-l);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--blue)" onclick="openM('post')">🎵 Moment</button>
+      <button style="flex:1;padding:8px;border:none;background:var(--blue-l);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;color:var(--blue)" onclick="openM('post')">🎉 Événement</button>
+    </div>
+  </div>
+
+
+
+  <div class="post">
+    <div class="post-hdr"><div class="post-ava ava-role resident" style="background:linear-gradient(135deg,#F59E0B,#D97706)">SM</div><div><div class="post-nm">Simone Martin</div><div class="post-mt">🌸 Résidente · il y a 2h</div></div></div>
+    <div class="post-img" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD)">🌊</div>
+    <div class="post-body" style="margin-top:8px">Quelle belle balade au bord de mer ce matin ! Les mimosas sont en fleurs, c'était magnifique 💛</div>
+    <div class="post-react">❤️ 12 · 👏 5 · 😂 2</div>
+    <div class="post-acts">
+      <button class="pact liked" onclick="this.classList.toggle('liked')">❤️ J'adore</button>
+      <button class="pact">💬 Commenter</button>
+      <button class="pact" onclick="goTo('messages')">✉️ Message</button>
+    </div>
+    <div class="comments">
+      <div class="cmt"><div class="cmt-ava" style="background:#BFDBFE;color:#1E40AF">PL</div><div class="cmt-bub"><strong>Pierre L.</strong>Magnifique ! 😊</div></div>
+    </div>
+  </div>
+
+  <div class="post">
+    <div class="post-hdr"><div class="post-ava" style="background:linear-gradient(135deg,#10B981,#059669)">MA</div><div><div class="post-nm">Marie Aubert</div><div class="post-mt">🎨 Animatrice · il y a 4h</div></div></div>
+    <div class="post-body">🏆 Bravo à Robert D. qui remporte le tournoi de pétanque pour la 2ème fois consécutive ! Quelle ambiance aujourd'hui !</div>
+    <div class="post-react">👏 28 · ❤️ 15 · 🎉 8</div>
+    <div class="post-acts">
+      <button class="pact" onclick="this.classList.toggle('liked')">👏 Bravo</button>
+      <button class="pact">💬 Commenter</button>
+      <button class="pact" onclick="goTo('messages')">✉️ Message</button>
+    </div>
+  </div>
+
+  <div class="sec-hdr"><div class="sec-title">🎯 Mes activités</div><button class="sec-more" onclick="goTo('sorties')">Tout voir →</button></div>
+  <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.625rem">
+
+    <!-- Activité inscrite 1 -->
+    <div style="background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.75rem;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="goTo('sorties')">
+      <div style="background:var(--orange-l);border-radius:10px;padding:8px 10px;text-align:center;min-width:48px;flex-shrink:0">
+        <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--orange);text-transform:uppercase">Lun</div>
+        <div style="font-size:1.3rem;font-weight:800;color:var(--orange);line-height:1">14</div>
+        <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--orange)">Avr</div>
+      </div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:var(--fs-sm);color:var(--g900);margin-bottom:2px">🚶 Balade au marché provençal</div>
+        <div style="font-size:var(--fs-xs);color:var(--g500)">🕙 10h00 · Départ résidence</div>
+      </div>
+      <span style="background:var(--green-l);color:#065F46;border-radius:20px;padding:3px 10px;font-size:var(--fs-xxs);font-weight:700;flex-shrink:0">✓ Inscrite</span>
+    </div>
+
+    <!-- Activité inscrite 2 -->
+    <div style="background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:.75rem;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="goTo('sorties')">
+      <div style="background:var(--orange-l);border-radius:10px;padding:8px 10px;text-align:center;min-width:48px;flex-shrink:0">
+        <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--orange);text-transform:uppercase">Sam</div>
+        <div style="font-size:1.3rem;font-weight:800;color:var(--orange);line-height:1">26</div>
+        <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--orange)">Avr</div>
+      </div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:var(--fs-sm);color:var(--g900);margin-bottom:2px">🎬 Cinéma · Pathé La Ciotat</div>
+        <div style="font-size:var(--fs-xs);color:var(--g500)">🕑 14h30 · Bus résidence</div>
+      </div>
+      <span style="background:var(--green-l);color:#065F46;border-radius:20px;padding:3px 10px;font-size:var(--fs-xxs);font-weight:700;flex-shrink:0">✓ Inscrite</span>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- =================== PAGE PLUS =================== -->
+<!-- Nouvelle page hub : accès à toutes les sections secondaires via gros boutons -->
+<div class="page" id="page-plus">
+  <div class="plus-header">
+    <h2>⋯ Plus de fonctionnalités</h2>
+    <p>Tout ce dont vous avez besoin, en quelques secondes</p>
+  </div>
+
+  <div class="plus-grid">
+
+
+
+    <!-- Famille -->
+    <div class="plus-card" onclick="goTo('famille')">
+      <div class="plus-card-ic">👨‍👩‍👧</div>
+      <div class="plus-card-title">Famille</div>
+      <div class="plus-card-desc">Espace famille sécurisé et suivi du proche</div>
+    </div>
+
+    <!-- Services fusionné -->
+    <div class="plus-card" onclick="goTo('services')" style="border-color:var(--orange)">
+      <div class="plus-card-ic">🛎️</div>
+      <div class="plus-card-title">Services</div>
+      <div class="plus-card-desc">Signaler, RDV et documents</div>
+    </div>
+
+    <!-- Profil -->
+    <div class="plus-card" onclick="openProfil()">
+      <div class="plus-card-ic">👤</div>
+      <div class="plus-card-title">Mon profil</div>
+      <div class="plus-card-desc">Photo, phrase d'accroche et préférences</div>
+      <div style="margin-top:6px;background:var(--blue-l);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:700;color:var(--blue)">Code famille : <span style="font-family:monospace">SAS-9921</span></div>
+    </div>
+
+
+
+    <!-- Direction : visible uniquement si IS_DIRECTOR = true -->
+    <div class="plus-card director-card" id="plus-card-direction" onclick="goTo('dashboard')" style="border-color:var(--secondary,#F59E0B)">
+      <div class="plus-card-ic">📊</div>
+      <div class="plus-card-title">Direction</div>
+      <div class="plus-card-desc">Tableau de bord et statistiques résidence</div>
+      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center">
+        <span style="background:#FEF3C7;color:#92400E;border-radius:20px;padding:2px 8px;font-size:9px;font-weight:700">📋 142/200 résidents</span>
+        <span style="background:#FEF2F2;color:#991B1B;border-radius:20px;padding:2px 8px;font-size:9px;font-weight:700" id="plus-signal-badge">🔧 2 signalements</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SORTIES =================== -->
+<div class="page" id="page-sorties">
+  <div class="sortie-section-hdr residence">
+    <div><div class="srt-sec-title">🎯 Activités · Les Acacias</div><div class="srt-sec-sub">Activités organisées par votre résidence</div></div>
+    <button onclick="openM('creersortie')" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif">+ Créer</button>
+  </div>
+  <!-- Activités résidence avec badge Officiel pour directeur/admin/animateur -->
+  <div class="sortie-card"><div class="sort-date res"><div class="sort-dow res">Lun</div><div class="sort-day res">14</div><div class="sort-mo res">Avr</div></div><div class="sort-info"><div class="sort-title">🚶 Balade au marché provençal <span class="badge-officiel">⭐ Officiel</span></div><div class="sort-det">🕙 10h00 · Départ résidence · Marie A. <span class="role-badge animateur">Animatrice</span></div><div class="sort-footer"><span class="sort-inscrits">👥 12 / 20 inscrits</span><button class="sort-btn res" onclick="showT('Inscrit ! ✅')">S'inscrire</button></div></div><span class="sort-badge sb-locale">Local</span></div>
+  <div class="sortie-card"><div class="sort-date res"><div class="sort-dow res">Jeu</div><div class="sort-day res">24</div><div class="sort-mo res">Avr</div></div><div class="sort-info"><div class="sort-title">🌸 Atelier jardinage printanier <span class="badge-officiel">⭐ Officiel</span></div><div class="sort-det">🕙 09h30 · Jardin résidence · Sylvie G. <span class="role-badge animateur">Animatrice</span></div><div class="sort-footer"><span class="sort-inscrits">👥 6 / 12 inscrits</span><button class="sort-btn res" onclick="showT('Inscrit ! 🌿')">S'inscrire</button></div></div><span class="sort-badge sb-locale">Local</span></div>
+  <div class="sortie-card"><div class="sort-date res"><div class="sort-dow res">Sam</div><div class="sort-day res">26</div><div class="sort-mo res">Avr</div></div><div class="sort-info"><div class="sort-title">🎬 Cinéma · Pathé La Ciotat</div><div class="sort-det">🕑 14h30 · Bus résidence · Robert D. <span class="role-badge resident">Résident</span></div><div class="sort-footer"><span class="sort-inscrits">👥 9 / 15 inscrits</span><button class="sort-btn res" onclick="showT('Inscrit ! 🎬')">S'inscrire</button></div></div><span class="sort-badge sb-locale">Local</span></div>
+  <button style="width:100%;padding:.625rem;background:#fff;border:1.5px solid var(--orange);color:var(--orange);border-radius:10px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer;margin-top:.25rem" onclick="openM('creersortie')">+ Créer une activité</button>
+</div>
+
+<!-- =================== MESSAGES =================== -->
+<div class="page" id="page-messages" style="margin:-.625rem;padding:0">
+  <div class="chat-shell">
+    <div class="chat-hdr-wa"><div style="flex:1"><div class="chat-hdr-wa-title">💬 Messagerie — Les Acacias</div></div><div style="font-size:10px;color:rgba(255,255,255,.7)">🔒 Privé & sécurisé</div></div>
+    <div class="chat-tabs-wa">
+      <button class="chat-tab-wa on" id="ctab-priv" onclick="showCTab('priv')"><span class="chat-tab-ic">👤</span>Privé<span class="ctwbadge">2</span></button>
+      <button class="chat-tab-wa" id="ctab-grp" onclick="showCTab('grp')"><span class="chat-tab-ic">👥</span>Groupes<span class="ctwbadge">1</span></button>
+      <button class="chat-tab-wa" id="ctab-new" onclick="showCTab('new')"><span class="chat-tab-ic">✏️</span>Nouveau</button>
+    </div>
+    <div class="chat-view on" id="cview-priv">
+      <div id="plist-wa" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+        <div class="chat-sbar"><input placeholder="🔍 Rechercher…" oninput="filterConvs(this.value)"></div>
+        <div class="clist-wa" id="priv-list">
+          <div class="citem-wa unrd act" onclick="openPriv('simone',this)"><div class="cava-wa" style="background:linear-gradient(135deg,#F59E0B,#D97706)">SM<div class="dot-on-wa"></div></div><div class="cbody-wa"><div class="ctop-wa"><span class="cname-wa">Simone Martin 🎂</span><span class="ctime-wa">10:24</span></div><div class="cbot-wa"><span class="cprev-wa b">Merci pour la photo !</span><span class="cunrd-wa">2</span></div></div></div>
+          <div class="citem-wa unrd" onclick="openPriv('robert',this)"><div class="cava-wa" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">RD<div class="dot-on-wa"></div></div><div class="cbody-wa"><div class="ctop-wa"><span class="cname-wa">Robert Dupont</span><span class="ctime-wa">09:51</span></div><div class="cbot-wa"><span class="cprev-wa b">On joue aux boules ?</span><span class="cunrd-wa">1</span></div></div></div>
+          <div class="citem-wa" onclick="openPriv('janine',this)"><div class="cava-wa" style="background:linear-gradient(135deg,#EC4899,#DB2777)">JF</div><div class="cbody-wa"><div class="ctop-wa"><span class="cname-wa">Janine Faure</span><span class="ctime-wa">Hier</span></div><div class="cbot-wa"><span class="cprev-wa">À demain pour le club !</span></div></div></div>
+          <div class="citem-wa" onclick="openPriv('pierre',this)"><div class="cava-wa" style="background:linear-gradient(135deg,#2563EB,#1D4ED8)">PL</div><div class="cbody-wa"><div class="ctop-wa"><span class="cname-wa">Pierre Lambert</span><span class="ctime-wa">Hier</span></div><div class="cbot-wa"><span class="cprev-wa">Partie d'échecs ce soir ?</span></div></div></div>
+          <div class="citem-wa" onclick="openPriv('marie',this)"><div class="cava-wa" style="background:linear-gradient(135deg,#10B981,#059669)">MA<div class="dot-on-wa"></div></div><div class="cbody-wa"><div class="ctop-wa"><span class="cname-wa">Marie A. 🎨 Animatrice</span><span class="ctime-wa">Hier</span></div><div class="cbot-wa"><span class="cprev-wa">Sortie confirmée demain !</span></div></div></div>
+        </div>
+        <button class="new-conv-btn" onclick="showCTab('new')">✏️ Nouvelle conversation</button>
+      </div>
+      <div class="chatpanel-wa" id="chatpanel-wa">
+        <div class="chdr-wa"><button class="backbtn-wa" onclick="backChat()">←</button><div class="chava-wa" id="chava-wa" style="background:linear-gradient(135deg,#F59E0B,#D97706)">SM</div><div style="flex:1"><div class="chname-wa" id="chname-wa">Simone Martin</div><div class="chstatus-wa" id="chstatus-wa">● En ligne</div></div><div style="background:rgba(255,255,255,.15);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;color:#fff">🔒 Privé</div></div>
+        <div class="msgs-wa" id="msgs-wa">
+          <div class="datesep-wa"><span>Aujourd'hui</span></div>
+          <div class="bw-wa"><div class="bava-sm-wa" style="background:linear-gradient(135deg,#F59E0B,#D97706)">SM</div><div class="bcol-wa"><div class="bubble-wa them">Bonjour ! C'est mon anniversaire aujourd'hui 🎂😊</div><div class="bmeta-wa">10:12</div></div></div>
+          <div class="bw-wa me"><div class="bcol-wa"><div class="bubble-wa me">Joyeux anniversaire Simone ! 🎉🥂</div><div class="bmeta-wa">10:15 <span class="rtick-wa">✓✓</span></div></div></div>
+          <div class="bw-wa"><div class="bava-sm-wa" style="background:linear-gradient(135deg,#F59E0B,#D97706)">SM</div><div class="bcol-wa"><div class="bubble-wa them">Merci ! 💛 Vous venez au pot ce soir ?</div><div class="bmeta-wa">10:24</div></div></div>
+        </div>
+        <div class="ibar-wa"><div class="iwrap-wa"><input id="msgin-wa" placeholder="Écrire un message…" onkeydown="if(event.key==='Enter')sendMsgWa()"></div><button class="sendbtn-wa" onclick="sendMsgWa()">➤</button></div>
+      </div>
+    </div>
+    <div class="chat-view" id="cview-grp">
+      <div class="clist-wa">
+        <div class="citem-wa unrd" onclick="openGrpChat('residence')"><div class="cava-wa" style="background:linear-gradient(135deg,#2563EB,#1D4ED8);border-radius:10px;font-size:16px">🏠</div><div class="cbody-wa"><div class="ctop-wa"><span class="cname-wa">Résidence Les Acacias</span><span class="ctime-wa">10:31</span></div><div class="cbot-wa"><span class="cprev-wa b">Marie A. : Sortie confirmée !</span><span class="cunrd-wa">5</span></div></div></div>
+        <div class="citem-wa" onclick="openGrpChat('lecture')"><div class="cava-wa" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);border-radius:10px;font-size:16px">📚</div><div class="cbody-wa"><div class="ctop-wa"><span class="cname-wa">Club Lecture</span><span class="ctime-wa">Hier</span></div><div class="cbot-wa"><span class="cprev-wa">Pierre : J'ai adoré ce roman !</span></div></div></div>
+      </div>
+      <div class="chatpanel-wa" id="chatpanel-grp-wa">
+        <div class="chdr-wa"><button class="backbtn-wa" onclick="backGrpChat()">←</button><div class="chava-wa" id="gchava-wa" style="border-radius:10px;font-size:14px">🏠</div><div style="flex:1"><div class="chname-wa" id="gchname-wa">Résidence</div><div class="chstatus-wa" id="gchstatus-wa">Groupe</div></div><div style="background:rgba(255,255,255,.15);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;color:#fff">👥 Groupe</div></div>
+        <div class="msgs-wa" id="msgs-grp-wa">
+          <div class="datesep-wa"><span>Aujourd'hui</span></div>
+          <div class="bw-wa"><div class="bava-sm-wa" style="background:linear-gradient(135deg,#10B981,#059669)">MA</div><div class="bcol-wa"><div class="bsender-wa">Marie A. (Animatrice)</div><div class="bubble-wa them">Bonjour à tous ! 🌞 La sortie de demain est confirmée. Départ 10h00 !</div><div class="bmeta-wa">09:15</div></div></div>
+          <div class="bw-wa me"><div class="bcol-wa"><div class="bubble-wa me">On se retrouve dans le hall ?</div><div class="bmeta-wa">09:20 <span class="rtick-wa">✓✓</span></div></div></div>
+          <div class="bw-wa"><div class="bava-sm-wa" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">RD</div><div class="bcol-wa"><div class="bsender-wa">Robert D.</div><div class="bubble-wa them">Oui, hall à 09h45 ! 👍</div><div class="bmeta-wa">09:22</div></div></div>
+        </div>
+        <div class="ibar-wa"><div class="iwrap-wa"><input id="msgin-grp-wa" placeholder="Écrire dans le groupe…" onkeydown="if(event.key==='Enter')sendGrpMsgWa()"></div><button class="sendbtn-wa" onclick="sendGrpMsgWa()">➤</button></div>
+      </div>
+    </div>
+    <div class="chat-view" id="cview-new">
+      <div class="ncview-wa">
+        <div class="nctypes-wa"><button class="nctbtn-wa on" id="nct-priv-wa" onclick="setNCTwa('priv')">🔒 Privé</button><button class="nctbtn-wa" id="nct-grp-wa" onclick="setNCTwa('grp')">👥 Groupe</button></div>
+        <div class="ncinfo-wa" id="ncinfo-wa" style="color:#065F46;background:#F0FDF4">🔒 Seuls vous et le destinataire pourront lire cette conversation</div>
+        <div class="chat-sbar"><input placeholder="Rechercher un résident…" oninput="renderNCLwa(this.value)"></div>
+        <div class="nclist-wa" id="nclist-wa"></div>
+        <button class="ncgo-wa" id="ncgo-wa" disabled onclick="startConvWa()">Sélectionnez un contact</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== FAMILLE =================== -->
+<div class="page" id="page-famille">
+  <!-- Login famille -->
+  <div id="fam-login-section">
+    <div class="fam-login">
+      <div class="fam-login-ic">👨‍👩‍👧</div>
+      <h2>Espace Famille</h2>
+      <p>Accédez au suivi de votre proche en saisissant le <strong>code d'accès unique</strong> attribué à son dossier par la résidence Les Acacias.</p>
+      <div class="fam-code-row">
+        <input type="text" class="fam-code-input" id="fam-code" placeholder="XXXX-XXXX" maxlength="9">
+        <button class="fam-code-btn" onclick="loginFamille()">Entrer</button>
+      </div>
+      <div class="fam-hint">💡 Code reçu par courrier ou email depuis la résidence<br>Essayez : <strong>1234-ACAC</strong> ou <strong>1234</strong></div>
+    </div>
+    <div class="card" style="margin-top:.625rem;text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:.5rem">🔒</div>
+      <div style="font-weight:700;font-size:var(--fs-sm);margin-bottom:.375rem">Données 100% privées</div>
+      <div style="font-size:var(--fs-xs);color:var(--g500);line-height:1.5">L'accès famille est strictement limité au résident concerné. Aucune donnée n'est partagée avec d'autres familles.</div>
+    </div>
+  </div>
+
+  <!-- Dashboard famille (après connexion) -->
+  <div class="fam-dashboard" id="fam-dashboard">
+    <div class="fam-resident-card">
+      <div class="fam-res-ava">SM</div>
+      <div style="flex:1">
+        <div class="fam-res-name">Simone Martin</div>
+        <div class="fam-res-sub">🏠 Les Acacias · Chambre 14</div>
+        <div class="fam-res-status">● Active aujourd'hui</div>
+      </div>
+      <button style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:4px 9px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif" onclick="logoutFamille()">Déconnexion</button>
+    </div>
+
+    <div class="fam-stats">
+      <div class="fam-stat"><div class="fam-stat-v" style="color:var(--green)">8</div><div class="fam-stat-l">Activités ce mois</div></div>
+      <div class="fam-stat"><div class="fam-stat-v" style="color:var(--blue)">4</div><div class="fam-stat-l">Activités</div></div>
+      <div class="fam-stat"><div class="fam-stat-v" style="color:var(--gold)">😄</div><div class="fam-stat-l">Humeur générale</div></div>
+    </div>
+
+    <div class="fam-card">
+      <div class="fam-card-title">📅 Activités récentes</div>
+      <div class="fam-activity-item"><div class="fam-act-ic" style="background:var(--orange-l)">🚶</div><div class="fam-act-info"><div class="fam-act-nm">Balade au marché provençal</div><div class="fam-act-dt">Lundi 14 avril</div></div><span class="fam-act-status" style="background:var(--green-l);color:#065F46">✓ Présente</span></div>
+      <div class="fam-activity-item"><div class="fam-act-ic" style="background:var(--purple-l)">🧠</div><div class="fam-act-info"><div class="fam-act-nm">Quiz du jour</div><div class="fam-act-dt">Dimanche 13 avril</div></div><span class="fam-act-status" style="background:var(--blue-l);color:#1E40AF">🏆 +30 pts</span></div>
+      <div class="fam-activity-item"><div class="fam-act-ic" style="background:var(--gold-l)">🎲</div><div class="fam-act-info"><div class="fam-act-nm">Tournoi de pétanque</div><div class="fam-act-dt">Jeudi 10 avril</div></div><span class="fam-act-status" style="background:var(--green-l);color:#065F46">✓ Présente</span></div>
+      <div class="fam-activity-item"><div class="fam-act-ic" style="background:var(--green-l)">🍽️</div><div class="fam-act-info"><div class="fam-act-nm">Repas de Pâques</div><div class="fam-act-dt">Dimanche 7 avril</div></div><span class="fam-act-status" style="background:var(--green-l);color:#065F46">✓ Présente</span></div>
+    </div>
+
+    <div class="fam-card">
+      <div class="fam-card-title">📸 Dernières photos partagées</div>
+      <div class="fam-photo-grid">
+        <div class="fam-photo" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);cursor:pointer" onclick="showT('Photo : Balade au port 🌊')">🌊</div>
+        <div class="fam-photo" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0);cursor:pointer" onclick="showT('Photo : Tournoi de pétanque 🎲')">🎲</div>
+        <div class="fam-photo" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);cursor:pointer" onclick="showT('Photo : Repas de Pâques 🍽️')">🐣</div>
+        <div class="fam-photo" style="background:linear-gradient(135deg,#FCE7F3,#FBCFE8);cursor:pointer" onclick="showT('Photo : Atelier jardinage 🌸')">🌸</div>
+        <div class="fam-photo" style="background:linear-gradient(135deg,#EDE9FE,#DDD6FE);cursor:pointer" onclick="showT('Photo : Club lecture 📚')">📚</div>
+        <div class="fam-photo" style="background:var(--g100);cursor:pointer;border:2px dashed var(--g300)" onclick="showT('Voir toutes les photos →')">+</div>
+      </div>
+    </div>
+
+    <div class="fam-card">
+      <div class="fam-card-title">🍽️ Menu d'aujourd'hui</div>
+      <div style="background:var(--green-l);border:1px solid #A7F3D0;border-radius:8px;padding:.625rem;font-size:var(--fs-xs);line-height:1.7">
+        <strong style="color:#065F46">Déjeuner :</strong> Salade niçoise · Daurade grillée, ratatouille · Tarte Tatin<br>
+        <strong style="color:#065F46">Dîner :</strong> Velouté potimarron · Poulet rôti aux herbes · Mousse au chocolat
+      </div>
+    </div>
+
+    <div class="fam-card">
+      <div class="fam-card-title">📅 Prochains événements</div>
+      <div style="font-size:var(--fs-xs);line-height:2;color:var(--g700)">
+        <div>📅 <strong>Lun 14 avr</strong> — Sortie marché provençal (inscrite)</div>
+        <div>🎂 <strong>Dim 13 avr</strong> — Anniversaire de Simone (aujourd'hui !)</div>
+      </div>
+    </div>
+
+    <button class="fam-msg-btn" onclick="showT('Message envoyé à l\'équipe des Acacias 💌')">
+      💌 Envoyer un message à l'équipe de la résidence
+    </button>
+  </div>
+</div>
+
+<!-- =================== SERVICES =================== -->
+<div class="page" id="page-services">
+
+  <!-- Hero vendeur -->
+  <div style="background:linear-gradient(135deg,#1E3A5F,#2563EB);border-radius:var(--rlg);padding:1rem 1.25rem;color:#fff;margin-bottom:.75rem">
+    <div style="font-size:1rem;font-weight:800;margin-bottom:3px">🛎️ Services de la résidence</div>
+    <div style="font-size:var(--fs-xxs);opacity:.8">Documents, rendez-vous et signalements — tout en un</div>
+  </div>
+
+  <!-- ── SIGNALER UN PROBLÈME ── mis en avant car usage quotidien ── -->
+  <div class="card" style="margin-bottom:.75rem;border:2px solid var(--orange)">
+    <div style="font-weight:800;font-size:var(--fs-sm);color:#C2410C;margin-bottom:.625rem;display:flex;align-items:center;gap:6px">🔧 Signaler un problème</div>
+    <div class="signal-cat-grid" id="signal-cat-grid">
+      <div class="signal-cat-btn" onclick="selSignalCat(this,'Électricité')">⚡ Électricité</div>
+      <div class="signal-cat-btn" onclick="selSignalCat(this,'Plomberie')">🚿 Plomberie</div>
+      <div class="signal-cat-btn" onclick="selSignalCat(this,'Chauffage')">🌡️ Chauffage</div>
+      <div class="signal-cat-btn" onclick="selSignalCat(this,'Ascenseur')">🛗 Ascenseur</div>
+      <div class="signal-cat-btn" style="grid-column:span 2" onclick="selSignalCat(this,'Autre')">🔧 Autre</div>
+    </div>
+    <input type="text" id="signal-apt" class="fi" placeholder="N° d'appartement (ex : 14)" style="font-size:var(--fs-sm);margin:.5rem 0 .375rem">
+    <textarea id="signal-desc" class="fi" rows="2" placeholder="Décrivez brièvement le problème…" style="resize:none;line-height:1.5;margin-bottom:.5rem"></textarea>
+    <button style="width:100%;padding:10px;background:var(--orange);color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer" onclick="submitSignalInline()">📤 Envoyer à l'équipe technique</button>
+  </div>
+
+  <!-- ── DEMANDER UN RENDEZ-VOUS ── -->
+  <div class="admin-rdv-card" style="margin-bottom:.75rem">
+    <div class="admin-rdv-title">📆 Demander un rendez-vous</div>
+    <select class="admin-rdv-sel">
+      <option>👩‍💼 Direction — Sophie Bernard</option>
+      <option>🎨 Animatrice — Marie Aubert</option>
+      <option>🏥 Infirmière coordinatrice</option>
+      <option>💶 Responsable facturation</option>
+    </select>
+    <div class="admin-rdv-row">
+      <input type="date" class="admin-rdv-input" style="flex:1">
+      <input type="time" class="admin-rdv-input" style="flex:1">
+    </div>
+    <input type="text" class="admin-rdv-input" placeholder="Objet du rendez-vous…" style="width:100%;margin-bottom:.375rem">
+    <button class="admin-rdv-btn" onclick="showT('Demande de RDV envoyée ! Vous recevrez une confirmation 📆')">📆 Envoyer la demande</button>
+  </div>
+
+  <!-- ── DOCUMENTS ── -->
+  <!-- ── MES DOCUMENTS ── -->
+  <div style="font-weight:800;font-size:var(--fs-xs);color:var(--g400);text-transform:uppercase;letter-spacing:.05em;margin:.75rem 0 .5rem">📄 Mes documents</div>
+
+  <!-- Règlement intérieur -->
+  <div class="admin-doc" onclick="showT('Règlement intérieur 📄')">
+    <div class="admin-doc-ic" style="background:#EFF6FF">📜</div>
+    <div class="admin-doc-info"><div class="admin-doc-nm">Règlement intérieur</div><div class="admin-doc-dt">Résidence Les Acacias · Janvier 2025</div></div>
+    <button class="admin-doc-dl" onclick="event.stopPropagation();showT('Téléchargé ! 📄')">⬇️ PDF</button>
+  </div>
+
+  <!-- Contrat de séjour -->
+  <div class="admin-doc" onclick="showT('Contrat de séjour 📋')">
+    <div class="admin-doc-ic" style="background:var(--g100)">📋</div>
+    <div class="admin-doc-info"><div class="admin-doc-nm">Contrat de séjour</div><div class="admin-doc-dt">Signé le 15 mars 2024</div></div>
+    <button class="admin-doc-dl" onclick="event.stopPropagation();showT('Téléchargé ! 📋')">⬇️ PDF</button>
+  </div>
+
+  <!-- Tarifs -->
+  <div class="admin-doc" onclick="showT('Tarifs & Prestations 💶')">
+    <div class="admin-doc-ic" style="background:var(--gold-l)">💶</div>
+    <div class="admin-doc-info"><div class="admin-doc-nm">Tarifs & Prestations 2025</div><div class="admin-doc-dt">Grille tarifaire en vigueur</div></div>
+    <button class="admin-doc-dl" onclick="event.stopPropagation();showT('Téléchargé ! 💶')">⬇️ PDF</button>
+  </div>
+
+  <!-- Charte réseau social SAS -->
+  <div class="admin-doc" onclick="showT('Charte d\'utilisation 📱')">
+    <div class="admin-doc-ic" style="background:var(--blue-l)">📱</div>
+    <div class="admin-doc-info">
+      <div class="admin-doc-nm">Charte d'utilisation — Réseau social</div>
+      <div class="admin-doc-dt">SAS Vie Sociale · Application de lien social</div>
+    </div>
+    <button class="admin-doc-dl" onclick="event.stopPropagation();showT('Téléchargé ! 📱')">⬇️ PDF</button>
+  </div>
+
+  <!-- Mentions légales RGPD -->
+  <div class="admin-doc" onclick="showT('Mentions légales & RGPD 🔒')">
+    <div class="admin-doc-ic" style="background:var(--purple-l)">🔒</div>
+    <div class="admin-doc-info">
+      <div class="admin-doc-nm">Mentions légales & RGPD</div>
+      <div class="admin-doc-dt">Protection des données · Vos droits</div>
+    </div>
+    <button class="admin-doc-dl" onclick="event.stopPropagation();showT('Téléchargé ! 🔒')">⬇️ PDF</button>
+  </div>
+
+  <!-- Engagement non-médical -->
+  <div style="background:var(--green-l);border:1px solid #A7F3D0;border-radius:var(--r);padding:.875rem;margin-top:.5rem">
+    <div style="font-weight:800;font-size:var(--fs-sm);color:#065F46;margin-bottom:.5rem;display:flex;align-items:center;gap:6px">✅ Engagement de la résidence</div>
+    <div style="font-size:var(--fs-xs);color:#065F46;line-height:1.7">
+      <div>🏠 Vous êtes <strong>résident(e) indépendant(e) et locataire</strong> — pas un patient.</div>
+      <div>💬 <strong>SAS Vie Sociale est un réseau social</strong> — il anime, connecte et facilite.</div>
+      <div>🚫 Aucune surveillance, aucun suivi médical, aucun contrôle individuel.</div>
+      <div>🔒 Vos <strong>messages privés sont chiffrés</strong> — la direction n'y a jamais accès.</div>
+      <div>📊 Seules des <strong>statistiques collectives</strong> sont utilisées (jamais individuelles).</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- =================== RESTAURANT =================== -->
+<div class="page" id="page-restaurant">
+  <div class="resto-hero">
+    <div><h2>🍽️ Restaurant Les Acacias</h2><p>Menu de la semaine · Chef Philippe Arnaud</p></div>
+    <div class="resto-badge-live">🟢 Déjeuner<br>en cours</div>
+  </div>
+
+  <!-- Bloc direction : import menu PDF ou saisie manuelle (visible direction uniquement) -->
+  <div id="resto-dir-block" style="display:none;background:var(--blue-l);border:1.5px solid var(--blue-m);border-radius:var(--r);padding:.875rem;margin-bottom:.625rem">
+    <div style="font-weight:800;font-size:var(--fs-sm);color:var(--blue);margin-bottom:.625rem;display:flex;align-items:center;gap:6px">📋 Gestion du menu — Direction</div>
+    <div style="display:flex;gap:8px;margin-bottom:.5rem">
+      <button onclick="restoShowPDF()" style="flex:1;padding:8px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer">📎 Importer PDF du menu</button>
+      <button onclick="restoShowSaisie()" style="flex:1;padding:8px;background:#fff;color:var(--blue);border:1.5px solid var(--blue-m);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer">✏️ Saisir le menu</button>
+    </div>
+    <!-- Zone import PDF -->
+    <div id="resto-pdf-zone" style="display:none;margin-top:.5rem">
+      <div onclick="document.getElementById('resto-pdf-input').click()" style="border:2px dashed var(--blue-m);border-radius:8px;padding:1rem;text-align:center;color:var(--blue);font-size:var(--fs-xs);font-weight:700;cursor:pointer;background:#fff">
+        📎 Glissez votre PDF ici ou appuyez pour choisir<br>
+        <span style="font-weight:400;color:var(--g400);font-size:var(--fs-xxs)">Le menu s'affichera directement pour les résidents</span>
+      </div>
+      <input type="file" id="resto-pdf-input" accept="application/pdf,image/*" style="display:none" onchange="restoImportPDF(this)">
+      <div id="resto-pdf-preview" style="display:none;margin-top:.5rem;padding:.5rem;background:#fff;border-radius:8px;font-size:var(--fs-xs);color:var(--green);font-weight:700">✅ Menu PDF importé — visible par les résidents</div>
+    </div>
+    <!-- Zone saisie manuelle -->
+    <div id="resto-saisie-zone" style="display:none;margin-top:.5rem;background:#fff;border-radius:8px;padding:.75rem">
+      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:6px">📅 Semaine du :</div>
+      <input type="text" placeholder="Ex : 14 au 20 avril 2026" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.5rem">
+      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:4px">🍽️ Entrée du jour</div>
+      <input type="text" id="saisie-entree" placeholder="Ex : Salade niçoise" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.5rem">
+      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:4px">🥩 Plat principal</div>
+      <input type="text" id="saisie-plat" placeholder="Ex : Daurade grillée, ratatouille" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.5rem">
+      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:4px">🥦 Option végétarienne</div>
+      <input type="text" id="saisie-vege" placeholder="Ex : Gratin courgettes au chèvre" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.5rem">
+      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:4px">🍮 Dessert</div>
+      <input type="text" id="saisie-dessert" placeholder="Ex : Tarte Tatin aux pommes" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.625rem">
+      <div style="display:flex;gap:6px">
+        <button onclick="restoSauvegarderMenu()" style="flex:2;padding:8px;background:var(--green);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer">✅ Publier le menu</button>
+        <button onclick="document.getElementById('resto-saisie-zone').style.display='none'" style="flex:1;padding:8px;background:var(--g100);color:var(--g600);border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu affiché aux résidents -->
+  <div id="resto-menu-view">
+    <div class="day-tabs"><div class="dtab" onclick="selDay(this)">Lun 14</div><div class="dtab" onclick="selDay(this)">Mar 15</div><div class="dtab" onclick="selDay(this)">Mer 16</div><div class="dtab" onclick="selDay(this)">Jeu 17</div><div class="dtab active" onclick="selDay(this)">Ven 18</div><div class="dtab" onclick="selDay(this)">Sam 19</div><div class="dtab" onclick="selDay(this)">Dim 20</div></div>
+    <div class="menu-card" id="resto-menu-card">
+      <div class="menu-service">🌅 Déjeuner</div>
+      <div class="menu-row"><div><div class="menu-course">Entrée</div><div class="menu-dish" id="menu-dish-entree">Salade niçoise</div><div class="menu-sub">Thon, olives, tomates cerises</div><div class="menu-tags"><span class="mtag mtag-local">Local</span></div></div><div class="menu-vote"><button class="vote-btn voted" onclick="this.classList.toggle('voted')">😋 32</button></div></div>
+      <div class="menu-row"><div><div class="menu-course">Plat</div><div class="menu-dish" id="menu-dish-plat">Daurade grillée, ratatouille</div><div class="menu-sub">Pommes vapeur, herbes fraîches</div><div class="menu-tags"><span class="mtag mtag-bio">Bio</span><span class="mtag mtag-local">Local</span></div></div><div class="menu-vote"><button class="vote-btn" onclick="this.classList.toggle('voted')">😋 28</button></div></div>
+      <div class="menu-row"><div><div class="menu-course">Végétarien</div><div class="menu-dish" id="menu-dish-vege">Gratin courgettes au chèvre</div><div class="menu-sub">Salade verte</div><div class="menu-tags"><span class="mtag mtag-vege">Végé</span></div></div><div class="menu-vote"><button class="vote-btn" onclick="this.classList.toggle('voted')">😋 11</button></div></div>
+      <div class="menu-row"><div><div class="menu-course">Dessert</div><div class="menu-dish" id="menu-dish-dessert">Tarte Tatin aux pommes</div><div class="menu-sub">Crème fraîche normande</div></div><div class="menu-vote"><button class="vote-btn" onclick="this.classList.toggle('voted')">😋 41</button></div></div>
+    </div>
+    <!-- Zone affichage PDF si importé -->
+    <div id="resto-pdf-affiche" style="display:none;background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:1rem;margin-bottom:.625rem;text-align:center">
+      <div style="font-size:2rem;margin-bottom:.5rem">📋</div>
+      <div style="font-weight:800;font-size:var(--fs-sm);margin-bottom:.25rem">Menu de la semaine</div>
+      <div style="font-size:var(--fs-xs);color:var(--g500);margin-bottom:.75rem">Publié par la direction</div>
+      <button onclick="showT('Ouverture du PDF menu 📋')" style="padding:8px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer">📎 Voir le menu complet</button>
+    </div>
+  </div>
+
+  <div class="avis-card">
+    <div class="avis-title">⭐ Avis des résidents</div>
+    <div class="avis-row"><div class="avis-ava2" style="background:linear-gradient(135deg,#F59E0B,#D97706)">SM</div><div class="avis-body"><div class="avis-nm">Simone M. <span class="stars">★★★★★</span></div><div class="avis-txt">La daurade était excellente ! 👨‍🍳</div></div></div>
+    <div class="avis-row"><div class="avis-ava2" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">RD</div><div class="avis-body"><div class="avis-nm">Robert D. <span class="stars">★★★★☆</span></div><div class="avis-txt">Très bon repas, un peu moins de sel ?</div></div></div>
+    <button class="suggest-btn" onclick="showT('Suggestion envoyée ! 👨‍🍳')">+ Suggérer un plat au chef</button>
+  </div>
+</div>
+
+<!-- =================== TABLEAU DE BORD DIRECTION =================== -->
+<div class="page" id="page-dashboard">
+  <div class="dash-hero">
+    <h2>📊 Tableau de bord Direction</h2>
+    <p>Résidence Les Acacias · Avril 2026</p>
+    <div style="font-size:10px;opacity:.7;margin-top:4px">🔒 Accès réservé à la direction</div>
+  </div>
+
+  <!-- Boutons export PDF -->
+  <div class="dash-export-row">
+    <button class="dash-export-btn monthly" onclick="exportPDF('monthly')">
+      📄 Rapport mensuel (PDF)
+    </button>
+    <button class="dash-export-btn quarterly" onclick="exportPDF('quarterly')">
+      📊 Rapport trimestriel (PDF)
+    </button>
+  </div>
+
+  <!-- Métriques principales -->
+  <div class="stats-grid">
+    <div class="stat-c"><div class="stat-v" style="color:var(--blue)">87%</div><div class="stat-l">Participation</div><div class="stat-s">▲ +12% vs mars</div></div>
+    <div class="stat-c"><div class="stat-v" style="color:var(--green)">47</div><div class="stat-l">Résidents actifs</div><div class="stat-s">sur 54 au total</div></div>
+    <div class="stat-c"><div class="stat-v" style="color:var(--gold)">24</div><div class="stat-l">Activités ce mois</div><div class="stat-s">▲ +3 vs mars</div></div>
+    <div class="stat-c"><div class="stat-v" style="color:var(--purple)">312</div><div class="stat-l">Messages</div><div class="stat-s">ce mois</div></div>
+  </div>
+
+  <!-- Satisfaction -->
+  <div style="font-weight:700;font-size:var(--fs-xxs);color:var(--g400);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Satisfaction générale</div>
+  <div class="smiley-row">
+    <div class="sm-c"><div class="sm-ic">😄</div><div class="sm-pct" style="color:var(--green)">68%</div><div class="sm-lb">Très satisfaits</div></div>
+    <div class="sm-c"><div class="sm-ic">🙂</div><div class="sm-pct" style="color:var(--gold)">25%</div><div class="sm-lb">Satisfaits</div></div>
+    <div class="sm-c"><div class="sm-ic">😐</div><div class="sm-pct" style="color:var(--g400)">7%</div><div class="sm-lb">Neutre</div></div>
+  </div>
+
+  <!-- Top 5 activités -->
+  <div class="top-c">
+    <h4>🏆 Top 5 activités du mois</h4>
+    <div class="top-item"><div class="top-rk r1">1</div><div class="top-bw"><div class="top-bl">🎲 Tournoi pétanque</div><div class="top-bar"><div class="top-bf" style="width:95%;background:var(--gold)"></div></div></div><div class="top-pct">95%</div></div>
+    <div class="top-item"><div class="top-rk">2</div><div class="top-bw"><div class="top-bl">🧠 Quiz du jour</div><div class="top-bar"><div class="top-bf" style="width:88%"></div></div></div><div class="top-pct">88%</div></div>
+    <div class="top-item"><div class="top-rk">3</div><div class="top-bw"><div class="top-bl">🚶 Activités</div><div class="top-bar"><div class="top-bf" style="width:82%"></div></div></div><div class="top-pct">82%</div></div>
+    <div class="top-item"><div class="top-rk">4</div><div class="top-bw"><div class="top-bl">🍽️ Votes restaurant</div><div class="top-bar"><div class="top-bf" style="width:75%"></div></div></div><div class="top-pct">75%</div></div>
+    <div class="top-item"><div class="top-rk">5</div><div class="top-bw"><div class="top-bl">💬 Messagerie</div><div class="top-bar"><div class="top-bf" style="width:70%"></div></div></div><div class="top-pct">70%</div></div>
+  </div>
+
+  <!-- Inscrits par activité — NOUVEAU v10 -->
+  <div class="top-c" style="margin-bottom:.625rem">
+    <h4>📋 Inscrits par activité — cette semaine</h4>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem .625rem;background:var(--g50);border-radius:8px;border:1px solid var(--g200)">
+        <div><div style="font-weight:700;font-size:var(--fs-xs)">🎲 Pétanque du jeudi</div><div style="font-size:var(--fs-xxs);color:var(--g400)">Jeu 24 Avr · 14h30 · Jardin</div></div>
+        <div style="text-align:right"><div style="font-weight:800;font-size:var(--fs-sm);color:var(--blue)">12 / 15</div><button onclick="showT('Liste : Simone, Robert, Marie... 📋')" style="font-size:var(--fs-xxs);color:var(--blue);background:none;border:none;cursor:pointer;font-family:Nunito,sans-serif;font-weight:700;padding:0">Voir la liste →</button></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem .625rem;background:var(--g50);border-radius:8px;border:1px solid var(--g200)">
+        <div><div style="font-weight:700;font-size:var(--fs-xs)">🎨 Atelier peinture</div><div style="font-size:var(--fs-xxs);color:var(--g400)">Ven 25 Avr · 10h00 · Salle commune</div></div>
+        <div style="text-align:right"><div style="font-weight:800;font-size:var(--fs-sm);color:var(--green)">8 / 10</div><button onclick="showT('Liste : Yvonne, Claude, Jacqueline... 📋')" style="font-size:var(--fs-xxs);color:var(--blue);background:none;border:none;cursor:pointer;font-family:Nunito,sans-serif;font-weight:700;padding:0">Voir la liste →</button></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem .625rem;background:var(--g50);border-radius:8px;border:1px solid var(--g200)">
+        <div><div style="font-weight:700;font-size:var(--fs-xs)">🚶 Promenade du parc</div><div style="font-size:var(--fs-xxs);color:var(--g400)">Sam 26 Avr · 09h30 · Départ hall</div></div>
+        <div style="text-align:right"><div style="font-weight:800;font-size:var(--fs-sm);color:var(--orange)">18 / 20</div><button onclick="showT('Liste : André, Madeleine, Gisèle... 📋')" style="font-size:var(--fs-xxs);color:var(--blue);background:none;border:none;cursor:pointer;font-family:Nunito,sans-serif;font-weight:700;padding:0">Voir la liste →</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activité hebdomadaire -->
+  <div class="top-c">
+    <h4>📅 Activité hebdomadaire</h4>
+    <div style="display:flex;gap:4px;align-items:flex-end;height:60px;margin-top:.5rem">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;background:var(--blue-m);border-radius:3px 3px 0 0;height:40%"></div><div style="font-size:9px;color:var(--g400)">L</div></div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;height:70%"></div><div style="font-size:9px;color:var(--g400)">M</div></div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;background:var(--blue-m);border-radius:3px 3px 0 0;height:55%"></div><div style="font-size:9px;color:var(--g400)">M</div></div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;height:90%"></div><div style="font-size:9px;color:var(--g400)">J</div></div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;background:var(--gold);border-radius:3px 3px 0 0;height:100%"></div><div style="font-size:9px;color:var(--g400)">V</div></div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;background:var(--blue-m);border-radius:3px 3px 0 0;height:65%"></div><div style="font-size:9px;color:var(--g400)">S</div></div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;background:var(--blue-m);border-radius:3px 3px 0 0;height:35%"></div><div style="font-size:9px;color:var(--g400)">D</div></div>
+    </div>
+  </div>
+
+  <!-- Commentaire directeur -->
+  <div class="card" style="margin-bottom:.625rem">
+    <div style="font-weight:800;font-size:var(--fs-sm);color:var(--g700);margin-bottom:.5rem">✏️ Commentaire du directeur (inclus dans le PDF)</div>
+    <textarea id="director-comment" style="width:100%;padding:9px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);resize:none;outline:none;min-height:80px" placeholder="Vos observations pour ce mois…" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--g200)'"></textarea>
+  </div>
+
+  <!-- Signalements Techniques — visible Administration & Direction -->
+  <div class="top-c" style="margin-bottom:.625rem">
+    <h4>🔧 Signalements techniques en cours <span id="signal-count-badge" style="background:var(--orange-l);color:#C2410C;border-radius:20px;padding:1px 8px;font-size:10px;margin-left:4px">2 en attente</span></h4>
+    <div id="signal-list-direction" style="margin-top:.625rem;display:flex;flex-direction:column;gap:.5rem"></div>
+  </div>
+
+  <!-- Bouton démo onboarding -->
+  <div class="card" style="margin-bottom:.625rem;border:1.5px dashed var(--blue-m);background:var(--blue-l)">
+    <div style="font-weight:800;font-size:var(--fs-sm);color:var(--blue);margin-bottom:.5rem">🚀 Configuration initiale</div>
+    <div style="font-size:var(--fs-xs);color:var(--g500);margin-bottom:.625rem">Relancez l'assistant de configuration pour modifier les paramètres de votre résidence.</div>
+    <button onclick="showOnboarding()" style="padding:8px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer">⚙️ Reconfigurer ma résidence</button>
+  </div>
+
+  <!-- Roadmap Priorités -->
+  <div class="card" style="margin-bottom:.625rem">
+    <div style="font-weight:800;font-size:var(--fs-sm);color:var(--g700);margin-bottom:.625rem">🗺️ Roadmap — Priorités en cours</div>
+    <div style="display:flex;flex-direction:column;gap:.5rem;font-size:var(--fs-xs)">
+      <div style="display:flex;align-items:center;gap:8px;padding:.5rem;background:var(--blue-l);border-radius:8px;border:1px solid var(--blue-m)"><span style="color:var(--blue);font-size:1rem">🔄</span><span style="color:#1E40AF;font-weight:700">Signature électronique du règlement intérieur via Yousign <span style="background:var(--blue);color:#fff;border-radius:20px;padding:1px 7px;font-size:9px;font-weight:700;margin-left:4px">En cours</span></span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:.5rem;background:var(--purple-l);border-radius:8px;border:1px solid #DDD6FE"><span style="color:var(--purple);font-size:1rem">🔄</span><span style="color:#5B21B6;font-weight:700">Module Famille — Visioconférence <span style="background:var(--purple);color:#fff;border-radius:20px;padding:1px 7px;font-size:9px;font-weight:700;margin-left:4px">En cours</span></span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:.5rem;background:var(--g100);border-radius:8px;border:1px solid var(--g200)"><span style="font-size:1rem">📋</span><span style="color:var(--g600);font-weight:700">Intégration agenda GMAO maintenance</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:.5rem;background:var(--g100);border-radius:8px;border:1px solid var(--g200)"><span style="font-size:1rem">📋</span><span style="color:var(--g600);font-weight:700">Tableau de bord familles avancé</span></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<!-- MODAL ANNONCE -->
+<div class="modal-annonce" id="modal-annonce">
+  <div class="modal-ann-box">
+    <h3>📣 L'équipe vous parle</h3>
+    <div class="ann-field"><label class="ann-label">Rôle affiché</label><select class="fi" id="ann-role" style="font-size:var(--fs-xs)"><option value="Directeur">👔 Directeur</option><option value="Directrice" selected>👔 Directrice</option><option value="Animateur">🎨 Animateur</option><option value="Animatrice">🎨 Animatrice</option>
+    <option value="Administration">🏢 Administration</option></select></div>
+    <div class="ann-field"><label class="ann-label">Message</label><textarea class="ann-textarea" id="ann-msg" rows="4" placeholder="Votre message pour les résidents…">Bienvenue à tous ! Nous sommes ravis d'accueillir cette semaine notre nouvelle résidente Mme Dupont. Un pot d'accueil est organisé vendredi à 16h en salle commune. Venez nombreux ! 🌸</textarea></div>
+    <div class="ann-field"><label class="ann-label">Photo (optionnel)</label><div class="ann-photo-zone" onclick="showT('Photo sélectionnée ! 📷')">📷 Cliquez pour ajouter une photo</div></div>
+    <div class="ann-btns"><button class="ann-btn-cancel" onclick="closeAnnonce()">Annuler</button><button class="ann-btn-save" onclick="saveAnnonce()">✅ Publier</button></div>
+  </div>
+</div>
+
+<!-- MODAL LIVRE D'OR -->
+<div class="modal-gdor" id="modal-gdor">
+  <div class="modal-gdor-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.875rem">
+      <div style="font-weight:800;font-size:var(--fs-sm)">✍️ Livre d'or — <span id="gdor-name">Simone Martin</span></div>
+      <button class="modal-cls" onclick="closeGdor()">✕</button>
+    </div>
+    <div class="ann-field"><label class="ann-label">Votre message</label><textarea class="ann-textarea" id="gdor-msg" rows="4" placeholder="Écrivez un message chaleureux…"></textarea></div>
+    <div style="display:flex;gap:8px">
+      <button class="ann-btn-cancel" onclick="closeGdor()" style="flex:1">Annuler</button>
+      <button class="ann-btn-save" style="flex:2;background:var(--pink)" onclick="saveGdor()">💌 Signer le livre d'or</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODALE ONBOARDING DIRECTEUR (première connexion) -->
+<div class="modal-ov" id="modal-onboarding" style="z-index:200">
+  <div class="modal" style="max-width:420px">
+    <!-- Étape indicateur -->
+    <div style="display:flex;gap:6px;justify-content:center;margin-bottom:1rem" id="onb-steps">
+      <div class="onb-dot active" id="onb-dot-1"></div>
+      <div class="onb-dot" id="onb-dot-2"></div>
+      <div class="onb-dot" id="onb-dot-3"></div>
+      <div class="onb-dot" id="onb-dot-4"></div>
+      <div class="onb-dot" id="onb-dot-5"></div>
+    </div>
+    <!-- Étape 1 -->
+    <div id="onb-step-1">
+      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">🏠</div>
+      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Bienvenue sur SAS Vie Sociale !</div>
+      <div style="font-size:var(--fs-xs);color:var(--g500);text-align:center;margin-bottom:1rem;line-height:1.6">Configurons votre résidence en 5 étapes rapides pour que vos résidents puissent commencer à l'utiliser dès aujourd'hui.</div>
+      <div class="ann-field"><label class="ann-label">Nom de votre résidence</label><input type="text" class="fi" placeholder="Ex : Résidence Les Acacias" id="onb-nom-res" value="Les Acacias"></div>
+      <div class="ann-field"><label class="ann-label">Ville</label><input type="text" class="fi" placeholder="Ex : Lyon" id="onb-ville" value="Lyon"></div>
+      <button class="ann-btn-save" style="width:100%;margin-top:.5rem" onclick="onbNext(1)">Suivant →</button>
+    </div>
+    <!-- Étape 2 -->
+    <div id="onb-step-2" style="display:none">
+      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">👤</div>
+      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Votre profil directeur</div>
+      <div class="ann-field"><label class="ann-label">Votre prénom et nom</label><input type="text" class="fi" placeholder="Ex : Sophie Bernard" id="onb-nom-dir" value="Sophie Bernard"></div>
+      <div class="ann-field"><label class="ann-label">Votre rôle</label>
+        <select class="fsel" id="onb-role-dir">
+          <option value="directeur">Directeur / Directrice</option>
+          <option value="administration">Administration</option>
+          <option value="animateur">Animateur / Animatrice</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:.5rem">
+        <button class="ann-btn-cancel" onclick="onbPrev(2)">← Retour</button>
+        <button class="ann-btn-save" style="flex:2" onclick="onbNext(2)">Suivant →</button>
+      </div>
+    </div>
+    <!-- Étape 3 -->
+    <div id="onb-step-3" style="display:none">
+      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">📣</div>
+      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Premier message aux résidents</div>
+      <div style="font-size:var(--fs-xs);color:var(--g500);text-align:center;margin-bottom:.75rem">Ce message apparaîtra sur l'Accueil dans le bloc "L'équipe vous parle"</div>
+      <div class="ann-field"><textarea class="ann-textarea" id="onb-msg-accueil" rows="4" placeholder="Ex : Bonjour à tous ! Nous sommes ravis de vous accueillir sur VIE SOCIALE, votre nouveau réseau de résidence. N'hésitez pas à partager des moments et vous inscrire aux activités ! 😊">Bonjour à tous ! Nous sommes ravis de vous accueillir sur SAS Vie Sociale. Partagez des moments, inscrivez-vous aux activités et retrouvez vos voisins ! 😊</textarea></div>
+      <div style="display:flex;gap:8px;margin-top:.5rem">
+        <button class="ann-btn-cancel" onclick="onbPrev(3)">← Retour</button>
+        <button class="ann-btn-save" style="flex:2" onclick="onbNext(3)">Suivant →</button>
+      </div>
+    </div>
+    <!-- Étape 4 -->
+    <div id="onb-step-4" style="display:none">
+      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">🎯</div>
+      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Votre première activité</div>
+      <div style="font-size:var(--fs-xs);color:var(--g500);text-align:center;margin-bottom:.75rem">Ajoutez une activité pour donner envie aux résidents de s'inscrire</div>
+      <div class="ann-field"><label class="ann-label">Titre de l'activité</label><input type="text" class="fi" placeholder="Ex : Pétanque du jeudi" id="onb-act-titre" value="Pétanque du jeudi"></div>
+      <div style="display:flex;gap:8px">
+        <div class="ann-field" style="flex:1"><label class="ann-label">Date</label><input type="text" class="fi" placeholder="24 avril" id="onb-act-date" value="24 avril"></div>
+        <div class="ann-field" style="flex:1"><label class="ann-label">Heure</label><input type="text" class="fi" placeholder="14h30" id="onb-act-heure" value="14h30"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:.5rem">
+        <button class="ann-btn-cancel" onclick="onbPrev(4)">← Retour</button>
+        <button class="ann-btn-save" style="flex:2" onclick="onbNext(4)">Suivant →</button>
+      </div>
+    </div>
+    <!-- Étape 5 -->
+    <div id="onb-step-5" style="display:none">
+      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">✅</div>
+      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Tout est prêt !</div>
+      <div style="background:var(--green-l);border:1px solid #A7F3D0;border-radius:var(--r);padding:.875rem;margin-bottom:.875rem">
+        <div style="font-size:var(--fs-xs);color:#065F46;line-height:1.8">
+          <div>✅ Résidence configurée</div>
+          <div>✅ Profil directeur créé</div>
+          <div>✅ Premier message publié</div>
+          <div>✅ Première activité ajoutée</div>
+          <div>🔒 Vos résidents sont protégés par le RGPD</div>
+        </div>
+      </div>
+      <div style="font-size:var(--fs-xs);color:var(--g500);text-align:center;margin-bottom:.875rem">Partagez le lien de votre résidence à vos résidents pour qu'ils commencent à l'utiliser !</div>
+      <button class="ann-btn-save" style="width:100%;background:var(--green)" onclick="onbTerminer()">🚀 Accéder à ma résidence</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL POST -->
+<div class="modal-ov" id="m-post"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Publier un moment</div><button class="modal-cls" onclick="closeM('post')">✕</button></div>
+  <div class="fg"><label class="fl">Votre message</label><textarea class="fi" rows="3" placeholder="Partagez…" style="resize:none"></textarea></div>
+  <div class="fg"><label class="fl">Photo</label><div style="border:2px dashed var(--g200);border-radius:8px;padding:14px;text-align:center;font-size:var(--fs-xs);color:var(--g400);cursor:pointer" onclick="showT('Photo ajoutée ! 📷')">📷 Ajouter une photo</div></div>
+  <button class="btn-pri" onclick="closeM('post');showT('Publié ! 🎉')">Publier</button>
+</div></div>
+
+<!-- MODAL CRÉER SORTIE -->
+<div class="modal-ov" id="m-creersortie"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Créer une activité</div><button class="modal-cls" onclick="closeM('creersortie')">✕</button></div>
+  <div class="fg"><label class="fl">Titre</label><input type="text" class="fi" placeholder="Ex : Visite du château d'If"></div>
+  <div class="fg"><label class="fl">Type</label><select class="fsel"><option>🏠 Ma résidence</option></select></div>
+  <div class="fg"><label class="fl">Date</label><input type="date" class="fi"></div>
+  <div class="fg"><label class="fl">Heure</label><input type="time" class="fi"></div>
+  <div class="fg"><label class="fl">Places</label><input type="number" class="fi" value="15"></div>
+  <button class="btn-pri" style="background:var(--orange)" onclick="closeM('creersortie');showT('Sortie créée ! ✅')">Créer la sortie</button>
+</div></div>
+
+<!-- BANDEAU CONFIDENTIALITÉ PERMANENT (visible résidents uniquement) -->
+<div id="privacy-banner" style="display:none;position:fixed;bottom:72px;left:50%;transform:translateX(-50%);width:100%;max-width:860px;background:rgba(16,185,129,0.92);color:#fff;text-align:center;font-size:var(--fs-xxs);font-weight:700;padding:4px 8px;z-index:89;letter-spacing:.01em">
+  🔒 Vos messages privés sont chiffrés — la direction n'y a jamais accès
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- BOUTON MICRO FLOTTANT (page Accueil) -->
+<button class="mic-fab" id="mic-fab-btn" onclick="toggleMicFab()" title="Dicter votre message">🎤</button>
+
+
+
+<!-- MODALE PROFIL RÉSIDENT -->
+<div class="profil-modal-ov" id="profil-modal">
+  <div class="profil-sheet">
+    <div class="profil-sheet-hdr">
+      <div style="font-weight:800;font-size:var(--fs-sm)">👤 Mon profil</div>
+      <button style="width:26px;height:26px;border-radius:50%;background:var(--g100);border:none;cursor:pointer;font-size:13px" onclick="closeProfil()">✕</button>
+    </div>
+    <!-- Avatar / photo -->
+    <div class="profil-ava-big" id="profil-ava-display" onclick="document.getElementById('profil-photo-input').click()">
+      <span id="profil-ava-initials">ML</span>
+      <img id="profil-ava-img" src="" alt="" style="display:none">
+      <div class="profil-ava-edit">📷</div>
+    </div>
+    <input type="file" id="profil-photo-input" accept="image/*" style="display:none" onchange="handleProfilPhoto(this)">
+    <p style="text-align:center;font-size:var(--fs-xxs);color:var(--g400);margin-bottom:.875rem">Appuyez sur la photo pour la modifier</p>
+
+    <!-- Sélecteur de rôle v8 -->
+    <label style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);display:block;margin-bottom:6px">🎭 Mon rôle dans la résidence</label>
+    <div class="role-selector" id="role-selector">
+      <div class="role-opt" id="role-opt-directeur"     onclick="selectRole('directeur')"     >🔴 Directeur / Directrice</div>
+      <div class="role-opt" id="role-opt-administration" onclick="selectRole('administration')" >🟠 Administration</div>
+      <div class="role-opt" id="role-opt-animateur"     onclick="selectRole('animateur')"     >🟢 Animateur / Animatrice</div>
+      <div class="role-opt" id="role-opt-ambassadeur"   onclick="selectRole('ambassadeur')"   >🟣 Ambassadeur / Ambassadrice</div>
+      <div class="role-opt" id="role-opt-resident"      onclick="selectRole('resident')"      style="grid-column:span 2">🔵 Résident / Résidente</div>
+    </div>
+    <div id="profil-role-preview" style="text-align:center;margin-bottom:.75rem;font-size:var(--fs-xs);color:var(--g500)"></div>
+
+    <!-- Phrase d'accroche -->
+    <label style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);display:block;margin-bottom:4px">Ma phrase d'accroche <span style="color:var(--g400)">(max 80 caractères)</span></label>
+    <input type="text" class="profil-phrase" id="profil-phrase-input" maxlength="80"
+      placeholder="Ex : J'aime la pétanque et le chocolat noir 🎲"
+      oninput="updateCharCount(this)">
+    <div class="profil-charcount"><span id="profil-charcount">0</span>/80</div>
+    <button class="profil-save-btn" onclick="saveProfil()">✅ Enregistrer mon profil</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV v9 : barre de navigation fixe en bas (style mobile senior-friendly) -->
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="bnav-btn active" id="bnav-accueil" onclick="goTo('accueil')">
+    <span class="bnav-ic">🏠</span>Accueil
+  </button>
+  <button class="bnav-btn" id="bnav-messages" onclick="goTo('messages')">
+    <span class="bnav-ic-wrap"><span class="bnav-ic">💬</span><span class="bnav-badge">3</span></span>Messages
+  </button>
+  <button class="bnav-btn" id="bnav-sorties" onclick="goTo('sorties')">
+    <span class="bnav-ic">🎯</span>Activités
+  </button>
+  <button class="bnav-btn" id="bnav-restaurant" onclick="goTo('restaurant')" style="display:none">
+    <span class="bnav-ic">🍽️</span>Resto
+  </button>
+  <button class="bnav-btn" id="bnav-plus" onclick="goTo('plus')">
+    <span class="bnav-ic">⋯</span>Plus
+  </button>
+</nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+// ─── Client Supabase (initialisé uniquement si DEMO_MODE = false) ───
+var supabaseClient = null;
+function initSupabase() {
+  if (!DEMO_MODE && SUPABASE_URL !== 'VOTRE_URL_SUPABASE') {
+    try {
+      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+      console.log('✅ Supabase connecté');
+    } catch(e) { console.warn('Supabase non connecté — mode démo actif', e); }
+  }
+}
+
+// ─── Charger les posts depuis Supabase (ou données démo) ───
+async function loadPostsEquipe() {
+  if (DEMO_MODE || !supabaseClient) return; // Données démo déjà affichées
+  try {
+    var { data, error } = await supabaseClient
+      .from('posts_equipe')
+      .select('*')
+      .eq('residence_id', RESIDENCE_ID)
+      .order('created_at', { ascending: false })
+      .limit(5);
+    if (error) throw error;
+    // Mettre à jour l'affichage avec les vraies données
+    console.log('Posts équipe chargés:', data);
+  } catch(e) { console.warn('Erreur chargement posts:', e); }
+}
+
+// ─── Charger les activités depuis Supabase ───
+async function loadActivites() {
+  if (DEMO_MODE || !supabaseClient) return;
+  try {
+    var { data, error } = await supabaseClient
+      .from('activites')
+      .select('*, inscriptions(count)')
+      .eq('residence_id', RESIDENCE_ID)
+      .gte('date', new Date().toISOString().split('T')[0])
+      .order('date', { ascending: true });
+    if (error) throw error;
+    console.log('Activités chargées:', data);
+  } catch(e) { console.warn('Erreur chargement activités:', e); }
+}
+
+// ─── Envoyer un signalement technique ───
+async function envoyerSignalement(categorie, appartement, description) {
+  if (DEMO_MODE || !supabaseClient) { showT('Signalement envoyé ! ✅'); return; }
+  try {
+    var { error } = await supabaseClient.from('signalements').insert({
+      residence_id: RESIDENCE_ID,
+      categorie: categorie,
+      appartement: appartement,
+      description: description,
+      statut: 'pending',
+      created_at: new Date().toISOString()
+    });
+    if (error) throw error;
+    showT('Signalement envoyé ! ✅');
+  } catch(e) { showT('Erreur envoi — réessayez'); console.error(e); }
+}
+
+// ─── Charger le menu restaurant ───
+async function loadMenuResto() {
+  if (DEMO_MODE || !supabaseClient) return;
+  try {
+    var today = new Date().toISOString().split('T')[0];
+    var { data, error } = await supabaseClient
+      .from('menus')
+      .select('*')
+      .eq('residence_id', RESIDENCE_ID)
+      .gte('date', today)
+      .order('date', { ascending: true })
+      .limit(7);
+    if (error) throw error;
+    if (data && data.length > 0) {
+      // Mise à jour des plats affichés
+      var plats = JSON.parse(data[0].plats_json || '{}');
+      if (plats.entree)  document.getElementById('menu-dish-entree').textContent  = plats.entree;
+      if (plats.plat)    document.getElementById('menu-dish-plat').textContent    = plats.plat;
+      if (plats.vege)    document.getElementById('menu-dish-vege').textContent    = plats.vege;
+      if (plats.dessert) document.getElementById('menu-dish-dessert').textContent = plats.dessert;
+    }
+  } catch(e) { console.warn('Erreur chargement menu:', e); }
+}
+
+// ─── Sauvegarder le menu restaurant dans Supabase ───
+async function saveMenuSupabase(plats) {
+  if (DEMO_MODE || !supabaseClient) return;
+  try {
+    var today = new Date().toISOString().split('T')[0];
+    var { error } = await supabaseClient.from('menus').upsert({
+      residence_id: RESIDENCE_ID,
+      date: today,
+      service: 'dejeuner',
+      plats_json: JSON.stringify(plats),
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'residence_id,date,service' });
+    if (error) throw error;
+    console.log('Menu sauvegardé dans Supabase');
+  } catch(e) { console.warn('Erreur sauvegarde menu:', e); }
+}
+</script>
+// =================== CONFIGURATION ABONNEMENT & RÔLE ===================
+// Changer ces valeurs pour simuler différents profils
+// =================== CONFIGURATION SUPABASE ===================
+// ⚠️  ÉTAPE 1 : Remplacer ces 2 valeurs par vos vraies clés Supabase
+//    → supabase.com → votre projet → Settings → API
+var SUPABASE_URL  = 'https://xmnnxkmotbmfjwlpcepb.supabase.co';
+var SUPABASE_ANON = 'sb_publishable_lCE1nHBb4-fCW0qdE79e1Q_yroOXHA9';
+// ⚠️  ÉTAPE 2 : Remplacer l'ID de résidence par celui créé dans Supabase
+var RESIDENCE_ID  = 'e822e0dc-2832-4958-8fe2-afc07499fce5';
+// ─── Mode démo : true = données fictives / false = vraies données Supabase ───
+var DEMO_MODE = false; // ✅ Connecté à Supabase — Les Acacias
+
+// =================== CONFIGURATION ABONNEMENT & RÔLE ===================
+var SUBSCRIPTION = 'pro'; // 'gratuit' (3 mois gratuit, 200 résidents max) | 'pro' (79€/mois, résidents illimités)
+var IS_DIRECTOR  = true;       // true = directeur, false = résident
+
+// ── v8 : Système de rôles ──
+// 'directeur' | 'administration' | 'animateur' | 'ambassadeur' | 'resident'
+var USER_ROLE = 'animateur';
+
+var ROLE_CONFIG = {
+  directeur:     { label: 'Directeur',      color: '#EF4444', cls: 'directeur' },
+  administration:{ label: 'Administration', color: '#F97316', cls: 'administration' },
+  animateur:     { label: 'Animateur',      color: '#10B981', cls: 'animateur' },
+  ambassadeur:   { label: 'Ambassadeur',    color: '#8B5CF6', cls: 'ambassadeur' },
+  resident:      { label: 'Résident',       color: '#3ABFF8', cls: 'resident' }
+};
+
+// Rôles qui peuvent créer des sorties « Officielles »
+var OFFICIAL_ROLES = ['directeur','administration','animateur'];
+
+// Signalements techniques (liste simulée)
+var TECH_SIGNALS = [
+  { id:1, cat:'Électricité', apt:'14', desc:'Prise dans le couloir ne fonctionne plus', date:'13 Avr', status:'pending' },
+  { id:2, cat:'Plomberie',   apt:'07', desc:'Fuite sous l\'évier de la cuisine',        date:'12 Avr', status:'done' },
+  { id:3, cat:'Chauffage',   apt:'22', desc:'Radiateur chambre ne chauffe pas',          date:'11 Avr', status:'pending' },
+];
+
+// =================== INITIALISATION ===================
+function initApp() {
+  // ── Initialisation Supabase (si configuré) ──
+  initSupabase();
+  loadActivites();
+  loadMenuResto();
+  // ── Restaurant : visible pour tous les abonnements (gratuit et pro) ──
+  if (SUBSCRIPTION === 'gratuit' || SUBSCRIPTION === 'pro') {
+    document.getElementById('tab-restaurant').style.display = 'flex';
+    var bnavResto = document.getElementById('bnav-restaurant');
+    if (bnavResto) bnavResto.style.display = 'flex';
+  }
+  // ── Restaurant direction : bloc gestion menu visible pour direction ──
+  if (IS_DIRECTOR || USER_ROLE === 'directeur' || USER_ROLE === 'administration' || USER_ROLE === 'animateur') {
+    var dirBlock = document.getElementById('resto-dir-block');
+    if(dirBlock) dirBlock.style.display = 'block';
+  }
+  // ── Direction : carte dans la page Plus, visible uniquement pour le directeur / administration ──
+  if (IS_DIRECTOR || USER_ROLE === 'directeur' || USER_ROLE === 'administration') {
+    document.getElementById('plus-card-direction').style.display = 'flex';
+    document.getElementById('tab-dashboard').style.display = 'none';
+  }
+  // ── Appliquer le rôle utilisateur ──
+  applyUserRole();
+  // ── Signalements techniques : rendre la liste pour la Direction ──
+  renderSignalDirection();
+  // ── Bouton micro FAB visible uniquement sur page Accueil ──
+  syncMicFabVisibility('accueil');
+  // ── Ajuster le padding du main pour la bottom nav v9 ──
+  var mainEl = document.getElementById('main-scroll');
+  if (mainEl) mainEl.style.paddingBottom = '80px';
+  // ── Toast : ajuster position au-dessus de la bottom nav ──
+  var toastEl = document.getElementById('toast');
+  if (toastEl) toastEl.style.bottom = '76px';
+  // ── Bandeau confidentialité : visible pour les résidents uniquement ──
+  if (USER_ROLE === 'resident') {
+    var privBanner = document.getElementById('privacy-banner');
+    if (privBanner) privBanner.style.display = 'block';
+  }
+  // ── Onboarding directeur : simulé en démo (commenter la ligne suivante en prod) ──
+  // Pour activer l'onboarding, décommenter la ligne ci-dessous :
+  // if (IS_DIRECTOR) showOnboarding();
+}
+
+function applyUserRole() {
+  var rc = ROLE_CONFIG[USER_ROLE] || ROLE_CONFIG.resident;
+  // Bordure avatar header
+  var avaEl = document.getElementById('header-ava');
+  if (avaEl) {
+    avaEl.style.border = '2.5px solid ' + rc.color;
+    avaEl.style.boxSizing = 'border-box';
+  }
+  // Afficher rôle dans le header
+  var resEl = document.querySelector('.hdr-res');
+  if (resEl) resEl.title = 'Rôle : ' + rc.label;
+}
+
+// =================== NAVIGATION ===================
+// Pages appartenant au hub "Plus" — l'onglet Plus reste actif quand on visite ces pages
+var PLUS_PAGES = ['famille','services','dashboard'];
+
+function goTo(p) {
+  document.querySelectorAll('.page').forEach(function(x){x.classList.remove('active')});
+  document.querySelectorAll('.ntab').forEach(function(x){x.classList.remove('active')});
+  document.querySelectorAll('.bnav-btn').forEach(function(x){x.classList.remove('active')});
+  var page = document.getElementById('page-'+p);
+  if (page) page.classList.add('active');
+  // Si la page appartient au hub Plus, on active l'onglet Plus (pas l'onglet caché)
+  if (PLUS_PAGES.indexOf(p) >= 0) {
+    var plusTab = document.getElementById('tab-plus');
+    if (plusTab) plusTab.classList.add('active');
+    var bnavPlus = document.getElementById('bnav-plus');
+    if (bnavPlus) bnavPlus.classList.add('active');
+  } else {
+    var tab = document.getElementById('tab-'+p);
+    if (tab) tab.classList.add('active');
+    var bnavBtn = document.getElementById('bnav-'+p);
+    if (bnavBtn) bnavBtn.classList.add('active');
+  }
+  document.getElementById('main-scroll').scrollTop = 0;
+  syncMicFabVisibility(p);
+}
+
+function syncMicFabVisibility(page) {
+  // Bouton micro FAB visible uniquement sur Accueil
+  document.getElementById('mic-fab-btn').style.display = (page === 'accueil') ? 'flex' : 'none';
+}
+
+function openM(id){document.getElementById('m-'+id).classList.add('open')}
+function closeM(id){document.getElementById('m-'+id).classList.remove('open')}
+function showT(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2600);}
+
+// =================== ACCESSIBILITÉ ===================
+var accessVisible=false,largeText=false,highContrast=false;
+function toggleAccessBar(){accessVisible=!accessVisible;document.getElementById('access-bar').classList.toggle('hidden',!accessVisible);}
+function toggleLargeText(){largeText=!largeText;document.body.classList.toggle('large-text',largeText);document.getElementById('btn-large').classList.toggle('on',largeText);showT(largeText?'Grand texte activé 🔤':'Texte normal');}
+function toggleContrast(){highContrast=!highContrast;document.body.classList.toggle('high-contrast',highContrast);document.getElementById('btn-contrast').classList.toggle('on',highContrast);showT(highContrast?'Contraste élevé activé 🌗':'Contraste normal');}
+
+// =================== ANNONCE ===================
+function openAnnonce(){document.getElementById('modal-annonce').classList.add('open')}
+function closeAnnonce(){document.getElementById('modal-annonce').classList.remove('open')}
+function saveAnnonce(){
+  var role=document.getElementById('ann-role').value;
+  var msg=document.getElementById('ann-msg').value;
+  document.getElementById('annonce-text').textContent=msg;
+  document.getElementById('annonce-role-label').textContent=role;
+  document.getElementById('annonce-meta').textContent='Publié par '+role+' · Maintenant';
+  document.getElementById('annonce-meta').textContent='Publié par Marie Aubert · '+role+' · Maintenant';
+  closeAnnonce();showT('Annonce publiée ! 📢');
+}
+
+// =================== LIVRE D'OR ===================
+function openGdor(name){document.getElementById('gdor-name').textContent=name;document.getElementById('gdor-msg').value='';document.getElementById('modal-gdor').classList.add('open');}
+function closeGdor(){document.getElementById('modal-gdor').classList.remove('open')}
+function saveGdor(){var msg=document.getElementById('gdor-msg').value.trim();if(!msg){showT('Écrivez un message !');return;}closeGdor();showT('Message ajouté au livre d\'or 💌 Merci !');}
+
+// =================== ONBOARDING DIRECTEUR ===================
+var ONB_CURRENT = 1;
+function showOnboarding(){document.getElementById('modal-onboarding').classList.add('open');}
+function onbNext(step){
+  document.getElementById('onb-step-'+step).style.display='none';
+  document.getElementById('onb-dot-'+step).classList.remove('active');
+  var next=step+1;
+  document.getElementById('onb-step-'+next).style.display='block';
+  document.getElementById('onb-dot-'+next).classList.add('active');
+  ONB_CURRENT=next;
+}
+function onbPrev(step){
+  document.getElementById('onb-step-'+step).style.display='none';
+  document.getElementById('onb-dot-'+step).classList.remove('active');
+  var prev=step-1;
+  document.getElementById('onb-step-'+prev).style.display='block';
+  document.getElementById('onb-dot-'+prev).classList.add('active');
+  ONB_CURRENT=prev;
+}
+function onbTerminer(){
+  document.getElementById('modal-onboarding').classList.remove('open');
+  showT('Votre résidence est prête ! Bienvenue 🎉');
+}
+
+// =================== ÉVÉNEMENTS ===================
+function filterEvt(el){document.querySelectorAll('.evt-src-btn').forEach(function(x){x.classList.remove('active')});el.classList.add('active');showT('Filtre : '+el.textContent);}
+
+// =================== RESTAURANT ===================
+function selDay(el){document.querySelectorAll('.dtab').forEach(function(x){x.classList.remove('active')});el.classList.add('active');showT('Menu du '+el.textContent+' chargé');}
+function restoShowPDF(){document.getElementById('resto-pdf-zone').style.display='block';document.getElementById('resto-saisie-zone').style.display='none';}
+function restoShowSaisie(){document.getElementById('resto-saisie-zone').style.display='block';document.getElementById('resto-pdf-zone').style.display='none';}
+function restoImportPDF(input){
+  if(input.files&&input.files[0]){
+    document.getElementById('resto-pdf-preview').style.display='block';
+    document.getElementById('resto-menu-card').style.display='none';
+    document.getElementById('resto-pdf-affiche').style.display='block';
+    showT('Menu PDF importé et publié ✅');
+  }
+}
+function restoSauvegarderMenu(){
+  var e=document.getElementById('saisie-entree').value.trim();
+  var p=document.getElementById('saisie-plat').value.trim();
+  var v=document.getElementById('saisie-vege').value.trim();
+  var d=document.getElementById('saisie-dessert').value.trim();
+  if(!e&&!p){showT('Saisissez au moins une entrée et un plat');return;}
+  if(e)document.getElementById('menu-dish-entree').textContent=e;
+  if(p)document.getElementById('menu-dish-plat').textContent=p;
+  if(v)document.getElementById('menu-dish-vege').textContent=v;
+  if(d)document.getElementById('menu-dish-dessert').textContent=d;
+  // Sauvegarder dans Supabase si connecté
+  saveMenuSupabase({entree:e,plat:p,vege:v,dessert:d});
+  document.getElementById('resto-saisie-zone').style.display='none';
+  showT('Menu publié ! Les résidents voient les changements ✅');
+}
+
+// =================== FAMILLE ===================
+function loginFamille(){
+  var code=document.getElementById('fam-code').value.trim().toUpperCase();
+  if(code==='1234-ACAC'||code==='1234ACAC'||code==='1234'){
+    document.getElementById('fam-login-section').style.display='none';
+    document.getElementById('fam-dashboard').style.display='block';
+    showT('Connexion famille réussie ! Bienvenue 👨‍👩‍👧');
+  } else {
+    showT('Code incorrect. Essayez 1234-ACAC pour la démo.');
+    document.getElementById('fam-code').style.borderColor='var(--red)';
+    setTimeout(function(){document.getElementById('fam-code').style.borderColor='';},2000);
+  }
+}
+function logoutFamille(){
+  document.getElementById('fam-login-section').style.display='block';
+  document.getElementById('fam-dashboard').style.display='none';
+  document.getElementById('fam-code').value='';
+  showT('Déconnexion famille effectuée');
+}
+
+// =================== ADMIN ===================
+function toggleSignalType(el){document.querySelectorAll('.astype').forEach(function(x){x.classList.remove('sel')});el.classList.add('sel');}
+
+// =================== PROFIL RÉSIDENT ===================
+var profilData = { phrase: '', photoUrl: '' };
+
+function openProfil() {
+  document.getElementById('profil-modal').classList.add('open');
+  document.getElementById('profil-phrase-input').value = profilData.phrase;
+  updateCharCount(document.getElementById('profil-phrase-input'));
+  initRoleSelector();
+}
+function closeProfil() {
+  document.getElementById('profil-modal').classList.remove('open');
+}
+function updateCharCount(input) {
+  document.getElementById('profil-charcount').textContent = input.value.length;
+}
+function handleProfilPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    profilData.photoUrl = e.target.result;
+    var img = document.getElementById('profil-ava-img');
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById('profil-ava-initials').style.display = 'none';
+    // Mettre à jour les avatars dans l'interface
+    updateAvatarsEverywhere();
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+function saveProfil() {
+  profilData.phrase = document.getElementById('profil-phrase-input').value.trim();
+  document.querySelectorAll('.my-post-phrase').forEach(function(el) {
+    el.textContent = profilData.phrase ? '"' + profilData.phrase + '"' : '';
+  });
+  // Mettre à jour la bordure de l'avatar du grand avatar profil
+  var rc = ROLE_CONFIG[USER_ROLE];
+  var bigAva = document.getElementById('profil-ava-display');
+  if (bigAva) bigAva.style.border = '3px solid ' + rc.color;
+  applyUserRole();
+  closeProfil();
+  showT('Profil mis à jour ! Rôle : ' + rc.label + ' ✅');
+}
+function updateAvatarsEverywhere() {
+  // En production, cette fonction synchronise la photo dans tous les avatars
+  showT('Photo de profil mise à jour 📷');
+}
+
+// =================== COMMANDE VOCALE (Web Speech API) ===================
+var recognition = null;
+var isListening = false;
+
+function initSpeech() {
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    console.log('Web Speech API non disponible sur ce navigateur.');
+    return false;
+  }
+  recognition = new SpeechRecognition();
+  recognition.lang = 'fr-FR';
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onstart = function() {
+    isListening = true;
+    document.getElementById('mic-fab-btn').classList.add('listening');
+    document.getElementById('mic-fab-btn').textContent = '🔴';
+    document.getElementById('mic-inline-btn').classList.add('listening');
+    document.getElementById('mic-feedback-inline').classList.add('show');
+    document.getElementById('mic-feedback-txt').textContent = 'J\'écoute…';
+  };
+  recognition.onresult = function(event) {
+    var transcript = '';
+    for (var i = event.resultIndex; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    document.getElementById('mic-feedback-txt').textContent = transcript;
+    if (event.results[event.results.length - 1].isFinal) {
+      // Injecter le texte dans la modale de post
+      openM('post');
+      var ta = document.querySelector('#m-post textarea');
+      if (ta) ta.value = transcript;
+    }
+  };
+  recognition.onerror = function(e) {
+    var msgs = {
+      'no-speech':'Aucune parole détectée. Réessayez.',
+      'not-allowed':'Microphone non autorisé. Vérifiez les permissions.',
+      'network':'Erreur réseau. Vérifiez votre connexion.'
+    };
+    showT(msgs[e.error] || 'Erreur microphone : ' + e.error);
+    stopListening();
+  };
+  recognition.onend = function() { stopListening(); };
+  return true;
+}
+
+function startListening() {
+  if (!recognition && !initSpeech()) {
+    showT('Commande vocale non disponible sur ce navigateur 😕');
+    return;
+  }
+  try { recognition.start(); } catch(e) { showT('Microphone déjà actif.'); }
+}
+
+function stopListening() {
+  isListening = false;
+  if (recognition) try { recognition.stop(); } catch(e){}
+  document.getElementById('mic-fab-btn').classList.remove('listening');
+  document.getElementById('mic-fab-btn').textContent = '🎤';
+  document.getElementById('mic-inline-btn').classList.remove('listening');
+  document.getElementById('mic-feedback-inline').classList.remove('show');
+}
+
+function toggleMicFab() {
+  if (isListening) stopListening(); else startListening();
+}
+function toggleMicInline() {
+  if (isListening) stopListening(); else startListening();
+}
+
+// =================== EXPORT PDF (jsPDF) ===================
+function exportPDF(type) {
+  var isMonthly = (type === 'monthly');
+  var title = isMonthly ? 'Rapport mensuel — Avril 2026' : 'Rapport trimestriel — T1 2026';
+  showT('Génération du PDF en cours… 📄');
+
+  setTimeout(function() {
+    try {
+      var doc = new window.jspdf.jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+      var margin = 18, y = 20, pageW = 210, contentW = pageW - margin*2;
+
+      // ── En-tête ──────────────────────────────────────────────
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, 210, 38, 'F');
+      doc.setTextColor(255,255,255);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(16);
+      doc.text('VIE SOCIALE — Résidence Les Acacias', margin, 16);
+      doc.setFontSize(11);
+      doc.setFont('helvetica','normal');
+      doc.text(title, margin, 24);
+      doc.setFontSize(9);
+      doc.text('Généré le ' + new Date().toLocaleDateString('fr-FR') + ' · Confidentiel direction', margin, 32);
+
+      y = 48;
+      doc.setTextColor(30,30,30);
+
+      // ── Métriques ────────────────────────────────────────────
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(13);
+      doc.setTextColor(37, 99, 235);
+      doc.text('Indicateurs clés', margin, y); y += 7;
+      doc.setDrawColor(37,99,235);
+      doc.setLineWidth(0.5);
+      doc.line(margin, y, margin+contentW, y); y += 6;
+
+      var metrics = [
+        ['Taux de participation global','87%','▲ +12% vs mois précédent'],
+        ['Résidents actifs','47 / 54','87% du total'],
+        ['Activités organisées','24','▲ +3 vs mois précédent'],
+        ['Messages échangés','312','Ce mois'],
+        ['Satisfaction (Très satisfaits)','68%','25% Satisfaits · 7% Neutre'],
+      ];
+      doc.setFontSize(10);
+      metrics.forEach(function(m) {
+        doc.setFont('helvetica','bold'); doc.setTextColor(30,30,30);
+        doc.text(m[0], margin, y);
+        doc.setFont('helvetica','normal'); doc.setTextColor(37,99,235);
+        doc.text(m[1], margin+85, y);
+        doc.setTextColor(100,100,100);
+        doc.text(m[2], margin+105, y);
+        y += 7;
+      });
+
+      y += 4;
+      // ── Top 5 activités ───────────────────────────────────────
+      doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(37,99,235);
+      doc.text('Top 5 activités du mois', margin, y); y += 7;
+      doc.setLineWidth(0.5); doc.line(margin, y, margin+contentW, y); y += 6;
+
+      var top5 = [
+        ['1.','Tournoi pétanque','95%'],
+        ['2.','Quiz du jour','88%'],
+        ['3.','Activités','82%'],
+        ['4.','Votes restaurant','75%'],
+        ['5.','Messagerie','70%'],
+      ];
+      doc.setFontSize(10);
+      top5.forEach(function(t) {
+        doc.setFont('helvetica','bold'); doc.setTextColor(30,30,30);
+        doc.text(t[0], margin, y);
+        doc.setFont('helvetica','normal');
+        doc.text(t[1], margin+8, y);
+        doc.setTextColor(37,99,235); doc.setFont('helvetica','bold');
+        doc.text(t[2], margin+contentW-12, y, {align:'right'});
+        // Barre de progression
+        doc.setFillColor(219,234,254);
+        doc.rect(margin+55, y-3.5, 60, 4, 'F');
+        doc.setFillColor(37,99,235);
+        doc.rect(margin+55, y-3.5, 60*(parseInt(t[2])/100), 4, 'F');
+        doc.setTextColor(30,30,30);
+        y += 8;
+      });
+
+      y += 4;
+      // ── Satisfaction ──────────────────────────────────────────
+      doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(37,99,235);
+      doc.text('Satisfaction générale', margin, y); y += 7;
+      doc.setLineWidth(0.5); doc.line(margin, y, margin+contentW, y); y += 6;
+      var satis = [['Très satisfaits','68%','16,185,129'],['Satisfaits','25%','245,158,11'],['Neutre','7%','156,163,175']];
+      satis.forEach(function(s) {
+        var rgb = s[2].split(',').map(Number);
+        doc.setFontSize(10); doc.setFont('helvetica','normal'); doc.setTextColor(30,30,30);
+        doc.text(s[0], margin, y);
+        doc.setFillColor(rgb[0],rgb[1],rgb[2]);
+        doc.rect(margin+50, y-3.5, 60*(parseInt(s[1])/100), 4, 'F');
+        doc.setFont('helvetica','bold'); doc.setTextColor(rgb[0],rgb[1],rgb[2]);
+        doc.text(s[1], margin+115, y);
+        doc.setTextColor(30,30,30);
+        y += 8;
+      });
+
+      y += 4;
+      // ── Commentaire directeur ─────────────────────────────────
+      var comment = (document.getElementById('director-comment') || {}).value || '';
+      if (comment.trim()) {
+        doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(37,99,235);
+        doc.text('Observations du directeur', margin, y); y += 7;
+        doc.setLineWidth(0.5); doc.line(margin, y, margin+contentW, y); y += 6;
+        doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(30,30,30);
+        var lines = doc.splitTextToSize(comment, contentW);
+        doc.text(lines, margin, y); y += lines.length*6 + 4;
+      }
+
+      // ── Pied de page ──────────────────────────────────────────
+      doc.setFillColor(243,244,246);
+      doc.rect(0, 280, 210, 17, 'F');
+      doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(107,114,128);
+      doc.text('SAS Vie Sociale · Résidence Les Acacias · Document confidentiel direction', margin, 289);
+      doc.text('Page 1/1', 210-margin, 289, {align:'right'});
+
+      // Sauvegarde
+      var fname = isMonthly ? 'rapport-mensuel-avril-2026.pdf' : 'rapport-trimestriel-T1-2026.pdf';
+      doc.save(fname);
+      showT('PDF téléchargé ! 📄');
+    } catch(err) {
+      console.error(err);
+      showT('Erreur génération PDF. Réessayez.');
+    }
+  }, 200);
+}
+
+// =================== MESSAGERIE WhatsApp ===================
+var currentPriv=null;var NCT_wa='priv';var NCSEL_wa=[];
+var USERS_WA={simone:{n:'Simone Martin 🎂',i:'SM',c:'linear-gradient(135deg,#F59E0B,#D97706)',on:true,role:'Résidente'},robert:{n:'Robert Dupont',i:'RD',c:'linear-gradient(135deg,#8B5CF6,#7C3AED)',on:true,role:'Résident'},janine:{n:'Janine Faure',i:'JF',c:'linear-gradient(135deg,#EC4899,#DB2777)',on:false,role:'Résidente'},pierre:{n:'Pierre Lambert',i:'PL',c:'linear-gradient(135deg,#2563EB,#1D4ED8)',on:false,role:'Résident'},marie:{n:'Marie Aubert',i:'MA',c:'linear-gradient(135deg,#10B981,#059669)',on:true,role:'Animatrice'}};
+var GRPS_WA={residence:{n:'Résidence Les Acacias',i:'🏠',c:'linear-gradient(135deg,#2563EB,#1D4ED8)',sub:'Groupe · 54 membres'},lecture:{n:'Club Lecture',i:'📚',c:'linear-gradient(135deg,#8B5CF6,#7C3AED)',sub:'Groupe · 8 membres'}};
+function showCTab(t){['priv','grp','new'].forEach(function(x){document.getElementById('cview-'+x).classList.remove('on');document.getElementById('ctab-'+x).classList.remove('on');});document.getElementById('cview-'+t).classList.add('on');document.getElementById('ctab-'+t).classList.add('on');if(t==='priv')backChat();if(t==='grp')backGrpChat();if(t==='new'){NCT_wa='priv';NCSEL_wa=[];renderNCLwa('');var btn=document.getElementById('ncgo-wa');btn.disabled=true;btn.textContent='Sélectionnez un contact';}}
+function openPriv(who,el){currentPriv=who;if(el){document.querySelectorAll('.citem-wa').forEach(function(x){x.classList.remove('act')});el.classList.add('act');}var u=USERS_WA[who];document.getElementById('plist-wa').style.display='none';document.getElementById('chatpanel-wa').classList.add('on');var a=document.getElementById('chava-wa');a.style.background=u.c;a.textContent=u.i;document.getElementById('chname-wa').textContent=u.n;var st=document.getElementById('chstatus-wa');st.textContent=u.on?'● En ligne':'● Hors ligne';st.style.color=u.on?'#8ad3c2':'rgba(255,255,255,.5)';}
+function backChat(){document.getElementById('plist-wa').style.display='flex';document.getElementById('chatpanel-wa').classList.remove('on');}
+function sendMsgWa(){var inp=document.getElementById('msgin-wa');var txt=inp.value.trim();if(!txt)return;inp.value='';var box=document.getElementById('msgs-wa');var el=document.createElement('div');el.className='bw-wa me';el.innerHTML='<div class="bcol-wa"><div class="bubble-wa me">'+txt+'</div><div class="bmeta-wa">Maint. <span class="rtick-wa">✓✓</span></div></div>';box.appendChild(el);box.scrollTop=box.scrollHeight;var r=['😊 Merci !','Bien sûr !','Bonne idée !','D\'accord 👍','À tout à l\'heure !','Super ! 🎉'];setTimeout(function(){if(!currentPriv)return;var u=USERS_WA[currentPriv];var re=document.createElement('div');re.className='bw-wa';re.innerHTML='<div class="bava-sm-wa" style="background:'+u.c+'">'+u.i+'</div><div class="bcol-wa"><div class="bubble-wa them">'+r[Math.floor(Math.random()*r.length)]+'</div><div class="bmeta-wa">Maint.</div></div>';box.appendChild(re);box.scrollTop=box.scrollHeight;},1100);}
+var currentGrp=null;
+function openGrpChat(id){currentGrp=id;var g=GRPS_WA[id];document.getElementById('chatpanel-grp-wa').classList.add('on');var a=document.getElementById('gchava-wa');a.style.background=g.c;a.textContent=g.i;document.getElementById('gchname-wa').textContent=g.n;document.getElementById('gchstatus-wa').textContent=g.sub;}
+function backGrpChat(){document.getElementById('chatpanel-grp-wa').classList.remove('on');}
+function sendGrpMsgWa(){var inp=document.getElementById('msgin-grp-wa');var txt=inp.value.trim();if(!txt)return;inp.value='';var box=document.getElementById('msgs-grp-wa');var el=document.createElement('div');el.className='bw-wa me';el.innerHTML='<div class="bcol-wa"><div class="bubble-wa me">'+txt+'</div><div class="bmeta-wa">Maint. <span class="rtick-wa">✓✓</span></div></div>';box.appendChild(el);box.scrollTop=box.scrollHeight;}
+function filterConvs(v){document.querySelectorAll('#priv-list .citem-wa').forEach(function(item){var n=item.querySelector('.cname-wa').textContent.toLowerCase();item.style.display=n.includes(v.toLowerCase())?'':'none';});}
+function setNCTwa(t){NCT_wa=t;NCSEL_wa=[];document.getElementById('nct-priv-wa').classList.toggle('on',t==='priv');document.getElementById('nct-grp-wa').classList.toggle('on',t==='grp');var info=document.getElementById('ncinfo-wa');if(t==='priv'){info.innerHTML='🔒 Seuls vous et le destinataire pourront lire cette conversation';info.style.color='#065F46';info.style.background='#F0FDF4';}else{info.innerHTML='👥 Tous les membres sélectionnés verront les messages du groupe';info.style.color='#1E40AF';info.style.background='#EFF6FF';}renderNCLwa('');var btn=document.getElementById('ncgo-wa');btn.disabled=true;btn.textContent='Sélectionnez un contact';}
+function renderNCLwa(f){var list=document.getElementById('nclist-wa');list.innerHTML='';Object.entries(USERS_WA).filter(function(e){return f===''||e[1].n.toLowerCase().includes(f.toLowerCase())}).forEach(function(e){var uid=e[0];var u=e[1];var sel=NCSEL_wa.indexOf(uid)>=0;var el=document.createElement('div');el.className='ncitem-wa'+(sel?' sel':'');el.innerHTML='<div class="ncava-wa" style="background:'+u.c+'">'+u.i+'</div><div class="ncbody-wa"><div class="ncname-wa">'+u.n+(u.on?' <span style="color:#25D366;font-size:9px">● En ligne</span>':'')+'</div><div class="ncrole-wa">'+u.role+'</div></div><div class="ncchk-wa'+(sel?' on':'')+'">'+( sel?'✓':'')+'</div>';el.onclick=function(){toggleNCwa(uid,el)};list.appendChild(el);});}
+function toggleNCwa(uid,el){if(NCT_wa==='priv'){NCSEL_wa=[uid];document.querySelectorAll('.ncitem-wa').forEach(function(x){x.classList.remove('sel');var c=x.querySelector('.ncchk-wa');c.className='ncchk-wa';c.textContent='';});}else{var i=NCSEL_wa.indexOf(uid);if(i>=0)NCSEL_wa.splice(i,1);else NCSEL_wa.push(uid);}el.classList.toggle('sel',NCSEL_wa.indexOf(uid)>=0);var chk=el.querySelector('.ncchk-wa');chk.className='ncchk-wa'+(NCSEL_wa.indexOf(uid)>=0?' on':'');chk.textContent=NCSEL_wa.indexOf(uid)>=0?'✓':'';var btn=document.getElementById('ncgo-wa');if(NCSEL_wa.length>0){btn.disabled=false;btn.textContent=NCT_wa==='priv'?'Ouvrir la conversation →':'Créer le groupe ('+NCSEL_wa.length+') →';}else{btn.disabled=true;btn.textContent='Sélectionnez un contact';}}
+function startConvWa(){if(!NCSEL_wa.length)return;if(NCT_wa==='priv'){var uid=NCSEL_wa[0];showCTab('priv');setTimeout(function(){openPriv(uid,null);showT('Conversation ouverte 🔒');},50);}else{showT('Groupe créé 👥');showCTab('grp');}NCSEL_wa=[];}
+renderNCLwa('');
+
+// =================== QUIZ ===================
+var quizScore=0,quizNum=0,quizAnswered=false,currentBankIdx=0,currentBankQs=[];
+var quizBanks=[
+  {theme:'France 🇫🇷',qs:[{q:"Dans quelle ville se trouve la Tour Eiffel ?",opts:["Paris","Lyon","Marseille","Bordeaux"],ok:0},{q:"Quel est le plus long fleuve de France ?",opts:["La Seine","Le Rhône","La Loire","La Garonne"],ok:2},{q:"En quelle année a eu lieu la Révolution Française ?",opts:["1789","1792","1776","1804"],ok:0},{q:"Qui a peint la Joconde ?",opts:["Raphaël","Monet","Léonard de Vinci","Picasso"],ok:2},{q:"Quel fromage vient de Normandie ?",opts:["Comté","Camembert","Roquefort","Brie"],ok:1}]},
+  {theme:'Géographie 🌍',qs:[{q:"Quelle est la capitale de l'Australie ?",opts:["Sydney","Melbourne","Canberra","Brisbane"],ok:2},{q:"Quel est le plus haut sommet du monde ?",opts:["Mont Blanc","Everest","K2","Kilimandjaro"],ok:1},{q:"Dans quel pays se trouve la Patagonie ?",opts:["Brésil","Chili / Argentine","Pérou","Bolivie"],ok:1},{q:"Quel fleuve traverse Le Caire ?",opts:["Le Tigre","L'Euphrate","Le Nil","Le Congo"],ok:2},{q:"Quelle est la plus grande île du monde ?",opts:["Bornéo","Madagascar","Groenland","Nouvelle-Guinée"],ok:2}]},
+  {theme:'Culture 🎭',qs:[{q:"Qui a écrit 'Les Misérables' ?",opts:["Balzac","Flaubert","Victor Hugo","Zola"],ok:2},{q:"En quelle année a été inauguré le tunnel sous la Manche ?",opts:["1990","1992","1994","1996"],ok:2},{q:"Quel est le symbole chimique de l'Or ?",opts:["Ag","Fe","Au","Cu"],ok:2},{q:"Dans quel sport utilise-t-on un 'birdie' ?",opts:["Tennis","Golf","Badminton","Ping-pong"],ok:1},{q:"Qui a composé la Symphonie du Nouveau Monde ?",opts:["Beethoven","Brahms","Dvořák","Schubert"],ok:2}]},
+  {theme:'Histoire 📜',qs:[{q:"En quelle année a eu lieu le Débarquement en Normandie ?",opts:["1942","1943","1944","1945"],ok:2},{q:"Qui était le premier Président de la Ve République ?",opts:["Pompidou","De Gaulle","Giscard d'Estaing","Mitterrand"],ok:1},{q:"En quelle année a été construit le mur de Berlin ?",opts:["1959","1961","1963","1965"],ok:1},{q:"Qui a découvert la pénicilline ?",opts:["Pasteur","Fleming","Curie","Koch"],ok:1},{q:"En quelle année la France a-t-elle gagné la Coupe du Monde de football ?",opts:["1994","1996","1998","2000"],ok:2}]}
+];
+function pickBank(){
+  currentBankIdx=Math.floor(Math.random()*quizBanks.length);
+  currentBankQs=quizBanks[currentBankIdx].qs.slice().sort(function(){return Math.random()-.5});
+  quizNum=0;
+  var tb=document.getElementById('quiz-theme-badge');
+  if(tb)tb.textContent=quizBanks[currentBankIdx].theme;
+}
+function renderQ(){
+  var qEl=document.getElementById('quiz-q');
+  var pgEl=document.getElementById('quiz-progress');
+  var nbEl=document.getElementById('next-btn');
+  var optsEl=document.getElementById('quiz-opts');
+  if(!qEl||!optsEl)return;
+  var q=currentBankQs[quizNum];
+  qEl.textContent=q.q;
+  if(pgEl)pgEl.textContent='Question '+(quizNum+1)+' / '+currentBankQs.length;
+  if(nbEl)nbEl.style.display='none';
+  quizAnswered=false;
+  optsEl.innerHTML='';
+  q.opts.forEach(function(opt,i){var btn=document.createElement('button');btn.className='quiz-opt';btn.textContent=opt;var isOk=(i===q.ok);btn.onclick=function(){answerQ(btn,isOk)};optsEl.appendChild(btn);});
+}
+function answerQ(el,correct){
+  if(quizAnswered)return;
+  quizAnswered=true;
+  document.querySelectorAll('.quiz-opt').forEach(function(o){o.style.pointerEvents='none'});
+  if(correct){el.classList.add('correct');quizScore+=10;var pts=document.getElementById('quiz-pts');if(pts)pts.textContent=quizScore+' pts';showT('Bonne réponse ! +10 pts 🎉');}
+  else{el.classList.add('wrong');showT('Pas tout à fait… 😅');}
+  var nb=document.getElementById('next-btn');if(nb)nb.style.display='block';
+}
+function nextQ(){quizNum++;if(quizNum>=currentBankQs.length){pickBank();showT('Nouveau thème : '+quizBanks[currentBankIdx].theme+' ✨');}renderQ();}
+pickBank();renderQ();
+
+// =================== RÔLES v8 ===================
+function selectRole(role) {
+  USER_ROLE = role;
+  var rc = ROLE_CONFIG[role];
+  // Mettre à jour les boutons du sélecteur
+  document.querySelectorAll('.role-opt').forEach(function(el) {
+    el.className = 'role-opt';
+  });
+  var opt = document.getElementById('role-opt-' + role);
+  if (opt) opt.classList.add('sel-' + role);
+  // Aperçu du badge
+  var preview = document.getElementById('profil-role-preview');
+  if (preview) {
+    preview.innerHTML = 'Votre badge : <span class="role-badge ' + rc.cls + '" style="vertical-align:middle">' + rc.label + '</span>';
+  }
+  // Mettre à jour la bordure avatar en temps réel
+  applyUserRole();
+}
+
+function initRoleSelector() {
+  var rc = ROLE_CONFIG[USER_ROLE];
+  var opt = document.getElementById('role-opt-' + USER_ROLE);
+  if (opt) opt.classList.add('sel-' + USER_ROLE);
+  var preview = document.getElementById('profil-role-preview');
+  if (preview) {
+    preview.innerHTML = 'Votre badge : <span class="role-badge ' + rc.cls + '" style="vertical-align:middle">' + rc.label + '</span>';
+  }
+}
+
+// =================== SIGNALEMENT TECHNIQUE v8 ===================
+var _selectedSignalCat = '';
+
+function openSignalTech() {
+  // Inline form on page-services — just navigate there
+  goTo('services');
+}
+function closeSignalTech() {}
+
+function selSignalCat(el, cat) {
+  document.querySelectorAll('.signal-cat-btn').forEach(function(b){ b.classList.remove('sel'); });
+  el.classList.add('sel');
+  _selectedSignalCat = cat;
+}
+
+function submitSignalInline() {
+  var apt  = document.getElementById('signal-apt') ? document.getElementById('signal-apt').value.trim() : '';
+  var desc = document.getElementById('signal-desc') ? document.getElementById('signal-desc').value.trim() : '';
+  if (!_selectedSignalCat) { showT('Sélectionnez une catégorie 🔧'); return; }
+  if (!apt)                 { showT("Indiquez votre N° d'appartement 🏠"); return; }
+  if (!desc)                { showT('Décrivez le problème 📝'); return; }
+  var today = new Date();
+  var dd    = today.getDate();
+  var mo    = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'][today.getMonth()];
+  TECH_SIGNALS.unshift({ id: TECH_SIGNALS.length+1, cat: _selectedSignalCat, apt: apt, desc: desc, date: dd+' '+mo, status:'pending' });
+  // Reset form
+  _selectedSignalCat='';
+  if(document.getElementById('signal-apt')) document.getElementById('signal-apt').value='';
+  if(document.getElementById('signal-desc')) document.getElementById('signal-desc').value='';
+  document.querySelectorAll('.signal-cat-btn').forEach(function(b){ b.classList.remove('sel'); });
+  renderSignalDirection();
+  showT('Signalement envoyé ! L\'équipe technique est notifiée 🔧');
+}
+
+function submitSignalTech() {
+  var apt  = document.getElementById('signal-apt').value.trim();
+  var desc = document.getElementById('signal-desc').value.trim();
+  if (!_selectedSignalCat) { showT('Sélectionnez une catégorie 🔧'); return; }
+  if (!apt)                 { showT('Indiquez votre numéro d\'appartement 🏠'); return; }
+  if (!desc)                { showT('Décrivez le problème 📝'); return; }
+
+  var today = new Date();
+  var dd    = today.getDate();
+  var mo    = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'][today.getMonth()];
+  TECH_SIGNALS.unshift({
+    id:     TECH_SIGNALS.length + 1,
+    cat:    _selectedSignalCat,
+    apt:    apt,
+    desc:   desc,
+    date:   dd + ' ' + mo,
+    status: 'pending'
+  });
+  closeSignalTech();
+  renderSignalDirection();
+  showT('Signalement envoyé ! Direction notifiée 🔧');
+}
+
+var SIGNAL_CAT_IC = { Électricité:'⚡', Plomberie:'🚿', Chauffage:'🌡️', Ascenseur:'🛗', Autre:'🔧' };
+
+function renderSignalDirection() {
+  var el = document.getElementById('signal-list-direction');
+  if (!el) return;
+  var pending = TECH_SIGNALS.filter(function(s){ return s.status === 'pending'; }).length;
+  var badge   = document.getElementById('signal-count-badge');
+  if (badge) badge.textContent = pending + ' en attente';
+  var plusBadge = document.getElementById('plus-signal-badge');
+  if (plusBadge) plusBadge.textContent = '🔧 ' + pending + ' signalement' + (pending > 1 ? 's' : '');
+  el.innerHTML = '';
+  TECH_SIGNALS.forEach(function(s) {
+    var ic   = SIGNAL_CAT_IC[s.cat] || '🔧';
+    var done = s.status === 'done';
+    var div  = document.createElement('div');
+    div.className = 'signal-item';
+    div.innerHTML = '<div class="signal-item-ic">' + ic + '</div>'
+      + '<div class="signal-item-body">'
+      + '<div class="signal-item-title">' + s.cat + ' · Apt ' + s.apt + '</div>'
+      + '<div style="font-size:var(--fs-xs);color:var(--g700);margin:2px 0">' + s.desc + '</div>'
+      + '<div class="signal-item-meta">Signalé le ' + s.date + '</div></div>'
+      + '<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">'
+      + '<span class="signal-status ' + (done ? 'done' : 'pending') + '">' + (done ? '✅ Traité' : '⏳ En attente') + '</span>'
+      + (!done ? '<button onclick="resolveSignal(' + s.id + ')" style="font-size:9px;padding:2px 8px;border:1px solid var(--green);color:var(--green);background:var(--green-l);border-radius:8px;cursor:pointer;font-family:\'Nunito\',sans-serif;font-weight:700">Marquer traité</button>' : '')
+      + '</div>';
+    el.appendChild(div);
+  });
+}
+
+function resolveSignal(id) {
+  var s = TECH_SIGNALS.find(function(x){ return x.id === id; });
+  if (s) { s.status = 'done'; renderSignalDirection(); showT('Signalement marqué comme traité ✅'); }
+}
+
+// =================== LANCEMENT ===================
+initApp();
+</script>
+</body>
+</html>
