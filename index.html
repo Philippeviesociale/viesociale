@@ -2,10 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SAS Vie Sociale — Les Acacias</title>
-<meta name="description" content="Réseau social de la Résidence Les Acacias">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -601,9 +598,6 @@ body.high-contrast .ntab{color:#aaa}body.high-contrast .ntab.active{color:#fff;b
 /* TOAST */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--g900);color:#fff;padding:8px 18px;border-radius:20px;font-size:var(--fs-xs);font-weight:700;opacity:0;transition:all .3s;z-index:200;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-/* ONBOARDING DOTS */
-.onb-dot{width:10px;height:10px;border-radius:50%;background:var(--g200);transition:background .2s}
-.onb-dot.active{background:var(--blue)}
 </style>
 </head>
 <body>
@@ -613,7 +607,7 @@ body.high-contrast .ntab{color:#aaa}body.high-contrast .ntab.active{color:#fff;b
   <div class="logo">
     <div class="logo-box">V</div>
     <div class="logo-txt"><span>Vie</span>Sociale</div>
-    <div class="pro-badge">⭐ v10 PRO</div>
+    <div class="pro-badge">⭐ v9 PRO</div>
   </div>
   <div class="hdr-right">
     <div class="hdr-res">🏠 Les Acacias</div>
@@ -1118,65 +1112,15 @@ body.high-contrast .ntab{color:#aaa}body.high-contrast .ntab.active{color:#fff;b
 
 <!-- =================== RESTAURANT =================== -->
 <div class="page" id="page-restaurant">
-  <div class="resto-hero">
-    <div><h2>🍽️ Restaurant Les Acacias</h2><p>Menu de la semaine · Chef Philippe Arnaud</p></div>
-    <div class="resto-badge-live">🟢 Déjeuner<br>en cours</div>
+  <div class="resto-hero"><div><h2>🍽️ Restaurant Les Acacias</h2><p>Menu de la semaine · Chef Philippe Arnaud</p></div><div class="resto-badge-live">🟢 Déjeuner<br>en cours</div></div>
+  <div class="day-tabs"><div class="dtab" onclick="selDay(this)">Lun 14</div><div class="dtab" onclick="selDay(this)">Mar 15</div><div class="dtab" onclick="selDay(this)">Mer 16</div><div class="dtab" onclick="selDay(this)">Jeu 17</div><div class="dtab active" onclick="selDay(this)">Ven 18</div><div class="dtab" onclick="selDay(this)">Sam 19</div><div class="dtab" onclick="selDay(this)">Dim 20</div></div>
+  <div class="menu-card">
+    <div class="menu-service">🌅 Déjeuner</div>
+    <div class="menu-row"><div><div class="menu-course">Entrée</div><div class="menu-dish">Salade niçoise</div><div class="menu-sub">Thon, olives, tomates cerises</div><div class="menu-tags"><span class="mtag mtag-local">Local</span></div></div><div class="menu-vote"><button class="vote-btn voted" onclick="this.classList.toggle('voted')">😋 32</button></div></div>
+    <div class="menu-row"><div><div class="menu-course">Plat</div><div class="menu-dish">Daurade grillée, ratatouille</div><div class="menu-sub">Pommes vapeur, herbes fraîches</div><div class="menu-tags"><span class="mtag mtag-bio">Bio</span><span class="mtag mtag-local">Local</span></div></div><div class="menu-vote"><button class="vote-btn" onclick="this.classList.toggle('voted')">😋 28</button></div></div>
+    <div class="menu-row"><div><div class="menu-course">Végétarien</div><div class="menu-dish">Gratin courgettes au chèvre</div><div class="menu-sub">Salade verte</div><div class="menu-tags"><span class="mtag mtag-vege">Végé</span></div></div><div class="menu-vote"><button class="vote-btn" onclick="this.classList.toggle('voted')">😋 11</button></div></div>
+    <div class="menu-row"><div><div class="menu-course">Dessert</div><div class="menu-dish">Tarte Tatin aux pommes</div><div class="menu-sub">Crème fraîche normande</div></div><div class="menu-vote"><button class="vote-btn" onclick="this.classList.toggle('voted')">😋 41</button></div></div>
   </div>
-
-  <!-- Bloc direction : import menu PDF ou saisie manuelle (visible direction uniquement) -->
-  <div id="resto-dir-block" style="display:none;background:var(--blue-l);border:1.5px solid var(--blue-m);border-radius:var(--r);padding:.875rem;margin-bottom:.625rem">
-    <div style="font-weight:800;font-size:var(--fs-sm);color:var(--blue);margin-bottom:.625rem;display:flex;align-items:center;gap:6px">📋 Gestion du menu — Direction</div>
-    <div style="display:flex;gap:8px;margin-bottom:.5rem">
-      <button onclick="restoShowPDF()" style="flex:1;padding:8px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer">📎 Importer PDF du menu</button>
-      <button onclick="restoShowSaisie()" style="flex:1;padding:8px;background:#fff;color:var(--blue);border:1.5px solid var(--blue-m);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer">✏️ Saisir le menu</button>
-    </div>
-    <!-- Zone import PDF -->
-    <div id="resto-pdf-zone" style="display:none;margin-top:.5rem">
-      <div onclick="document.getElementById('resto-pdf-input').click()" style="border:2px dashed var(--blue-m);border-radius:8px;padding:1rem;text-align:center;color:var(--blue);font-size:var(--fs-xs);font-weight:700;cursor:pointer;background:#fff">
-        📎 Glissez votre PDF ici ou appuyez pour choisir<br>
-        <span style="font-weight:400;color:var(--g400);font-size:var(--fs-xxs)">Le menu s'affichera directement pour les résidents</span>
-      </div>
-      <input type="file" id="resto-pdf-input" accept="application/pdf,image/*" style="display:none" onchange="restoImportPDF(this)">
-      <div id="resto-pdf-preview" style="display:none;margin-top:.5rem;padding:.5rem;background:#fff;border-radius:8px;font-size:var(--fs-xs);color:var(--green);font-weight:700">✅ Menu PDF importé — visible par les résidents</div>
-    </div>
-    <!-- Zone saisie manuelle -->
-    <div id="resto-saisie-zone" style="display:none;margin-top:.5rem;background:#fff;border-radius:8px;padding:.75rem">
-      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:6px">📅 Semaine du :</div>
-      <input type="text" placeholder="Ex : 14 au 20 avril 2026" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.5rem">
-      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:4px">🍽️ Entrée du jour</div>
-      <input type="text" id="saisie-entree" placeholder="Ex : Salade niçoise" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.5rem">
-      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:4px">🥩 Plat principal</div>
-      <input type="text" id="saisie-plat" placeholder="Ex : Daurade grillée, ratatouille" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.5rem">
-      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:4px">🥦 Option végétarienne</div>
-      <input type="text" id="saisie-vege" placeholder="Ex : Gratin courgettes au chèvre" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.5rem">
-      <div style="font-size:var(--fs-xxs);font-weight:700;color:var(--g500);margin-bottom:4px">🍮 Dessert</div>
-      <input type="text" id="saisie-dessert" placeholder="Ex : Tarte Tatin aux pommes" style="width:100%;padding:7px 10px;border:1.5px solid var(--g200);border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);margin-bottom:.625rem">
-      <div style="display:flex;gap:6px">
-        <button onclick="restoSauvegarderMenu()" style="flex:2;padding:8px;background:var(--green);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer">✅ Publier le menu</button>
-        <button onclick="document.getElementById('resto-saisie-zone').style.display='none'" style="flex:1;padding:8px;background:var(--g100);color:var(--g600);border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer">Annuler</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Menu affiché aux résidents -->
-  <div id="resto-menu-view">
-    <div class="day-tabs"><div class="dtab" onclick="selDay(this)">Lun 14</div><div class="dtab" onclick="selDay(this)">Mar 15</div><div class="dtab" onclick="selDay(this)">Mer 16</div><div class="dtab" onclick="selDay(this)">Jeu 17</div><div class="dtab active" onclick="selDay(this)">Ven 18</div><div class="dtab" onclick="selDay(this)">Sam 19</div><div class="dtab" onclick="selDay(this)">Dim 20</div></div>
-    <div class="menu-card" id="resto-menu-card">
-      <div class="menu-service">🌅 Déjeuner</div>
-      <div class="menu-row"><div><div class="menu-course">Entrée</div><div class="menu-dish" id="menu-dish-entree">Salade niçoise</div><div class="menu-sub">Thon, olives, tomates cerises</div><div class="menu-tags"><span class="mtag mtag-local">Local</span></div></div><div class="menu-vote"><button class="vote-btn voted" onclick="this.classList.toggle('voted')">😋 32</button></div></div>
-      <div class="menu-row"><div><div class="menu-course">Plat</div><div class="menu-dish" id="menu-dish-plat">Daurade grillée, ratatouille</div><div class="menu-sub">Pommes vapeur, herbes fraîches</div><div class="menu-tags"><span class="mtag mtag-bio">Bio</span><span class="mtag mtag-local">Local</span></div></div><div class="menu-vote"><button class="vote-btn" onclick="this.classList.toggle('voted')">😋 28</button></div></div>
-      <div class="menu-row"><div><div class="menu-course">Végétarien</div><div class="menu-dish" id="menu-dish-vege">Gratin courgettes au chèvre</div><div class="menu-sub">Salade verte</div><div class="menu-tags"><span class="mtag mtag-vege">Végé</span></div></div><div class="menu-vote"><button class="vote-btn" onclick="this.classList.toggle('voted')">😋 11</button></div></div>
-      <div class="menu-row"><div><div class="menu-course">Dessert</div><div class="menu-dish" id="menu-dish-dessert">Tarte Tatin aux pommes</div><div class="menu-sub">Crème fraîche normande</div></div><div class="menu-vote"><button class="vote-btn" onclick="this.classList.toggle('voted')">😋 41</button></div></div>
-    </div>
-    <!-- Zone affichage PDF si importé -->
-    <div id="resto-pdf-affiche" style="display:none;background:#fff;border-radius:var(--r);border:1px solid var(--g200);padding:1rem;margin-bottom:.625rem;text-align:center">
-      <div style="font-size:2rem;margin-bottom:.5rem">📋</div>
-      <div style="font-weight:800;font-size:var(--fs-sm);margin-bottom:.25rem">Menu de la semaine</div>
-      <div style="font-size:var(--fs-xs);color:var(--g500);margin-bottom:.75rem">Publié par la direction</div>
-      <button onclick="showT('Ouverture du PDF menu 📋')" style="padding:8px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-sm);font-weight:700;cursor:pointer">📎 Voir le menu complet</button>
-    </div>
-  </div>
-
   <div class="avis-card">
     <div class="avis-title">⭐ Avis des résidents</div>
     <div class="avis-row"><div class="avis-ava2" style="background:linear-gradient(135deg,#F59E0B,#D97706)">SM</div><div class="avis-body"><div class="avis-nm">Simone M. <span class="stars">★★★★★</span></div><div class="avis-txt">La daurade était excellente ! 👨‍🍳</div></div></div>
@@ -1229,25 +1173,6 @@ body.high-contrast .ntab{color:#aaa}body.high-contrast .ntab.active{color:#fff;b
     <div class="top-item"><div class="top-rk">5</div><div class="top-bw"><div class="top-bl">💬 Messagerie</div><div class="top-bar"><div class="top-bf" style="width:70%"></div></div></div><div class="top-pct">70%</div></div>
   </div>
 
-  <!-- Inscrits par activité — NOUVEAU v10 -->
-  <div class="top-c" style="margin-bottom:.625rem">
-    <h4>📋 Inscrits par activité — cette semaine</h4>
-    <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem .625rem;background:var(--g50);border-radius:8px;border:1px solid var(--g200)">
-        <div><div style="font-weight:700;font-size:var(--fs-xs)">🎲 Pétanque du jeudi</div><div style="font-size:var(--fs-xxs);color:var(--g400)">Jeu 24 Avr · 14h30 · Jardin</div></div>
-        <div style="text-align:right"><div style="font-weight:800;font-size:var(--fs-sm);color:var(--blue)">12 / 15</div><button onclick="showT('Liste : Simone, Robert, Marie... 📋')" style="font-size:var(--fs-xxs);color:var(--blue);background:none;border:none;cursor:pointer;font-family:Nunito,sans-serif;font-weight:700;padding:0">Voir la liste →</button></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem .625rem;background:var(--g50);border-radius:8px;border:1px solid var(--g200)">
-        <div><div style="font-weight:700;font-size:var(--fs-xs)">🎨 Atelier peinture</div><div style="font-size:var(--fs-xxs);color:var(--g400)">Ven 25 Avr · 10h00 · Salle commune</div></div>
-        <div style="text-align:right"><div style="font-weight:800;font-size:var(--fs-sm);color:var(--green)">8 / 10</div><button onclick="showT('Liste : Yvonne, Claude, Jacqueline... 📋')" style="font-size:var(--fs-xxs);color:var(--blue);background:none;border:none;cursor:pointer;font-family:Nunito,sans-serif;font-weight:700;padding:0">Voir la liste →</button></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem .625rem;background:var(--g50);border-radius:8px;border:1px solid var(--g200)">
-        <div><div style="font-weight:700;font-size:var(--fs-xs)">🚶 Promenade du parc</div><div style="font-size:var(--fs-xxs);color:var(--g400)">Sam 26 Avr · 09h30 · Départ hall</div></div>
-        <div style="text-align:right"><div style="font-weight:800;font-size:var(--fs-sm);color:var(--orange)">18 / 20</div><button onclick="showT('Liste : André, Madeleine, Gisèle... 📋')" style="font-size:var(--fs-xxs);color:var(--blue);background:none;border:none;cursor:pointer;font-family:Nunito,sans-serif;font-weight:700;padding:0">Voir la liste →</button></div>
-      </div>
-    </div>
-  </div>
-
   <!-- Activité hebdomadaire -->
   <div class="top-c">
     <h4>📅 Activité hebdomadaire</h4>
@@ -1272,13 +1197,6 @@ body.high-contrast .ntab{color:#aaa}body.high-contrast .ntab.active{color:#fff;b
   <div class="top-c" style="margin-bottom:.625rem">
     <h4>🔧 Signalements techniques en cours <span id="signal-count-badge" style="background:var(--orange-l);color:#C2410C;border-radius:20px;padding:1px 8px;font-size:10px;margin-left:4px">2 en attente</span></h4>
     <div id="signal-list-direction" style="margin-top:.625rem;display:flex;flex-direction:column;gap:.5rem"></div>
-  </div>
-
-  <!-- Bouton démo onboarding -->
-  <div class="card" style="margin-bottom:.625rem;border:1.5px dashed var(--blue-m);background:var(--blue-l)">
-    <div style="font-weight:800;font-size:var(--fs-sm);color:var(--blue);margin-bottom:.5rem">🚀 Configuration initiale</div>
-    <div style="font-size:var(--fs-xs);color:var(--g500);margin-bottom:.625rem">Relancez l'assistant de configuration pour modifier les paramètres de votre résidence.</div>
-    <button onclick="showOnboarding()" style="padding:8px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:var(--fs-xs);font-weight:700;cursor:pointer">⚙️ Reconfigurer ma résidence</button>
   </div>
 
   <!-- Roadmap Priorités -->
@@ -1322,88 +1240,6 @@ body.high-contrast .ntab{color:#aaa}body.high-contrast .ntab.active{color:#fff;b
   </div>
 </div>
 
-<!-- MODALE ONBOARDING DIRECTEUR (première connexion) -->
-<div class="modal-ov" id="modal-onboarding" style="z-index:200">
-  <div class="modal" style="max-width:420px">
-    <!-- Étape indicateur -->
-    <div style="display:flex;gap:6px;justify-content:center;margin-bottom:1rem" id="onb-steps">
-      <div class="onb-dot active" id="onb-dot-1"></div>
-      <div class="onb-dot" id="onb-dot-2"></div>
-      <div class="onb-dot" id="onb-dot-3"></div>
-      <div class="onb-dot" id="onb-dot-4"></div>
-      <div class="onb-dot" id="onb-dot-5"></div>
-    </div>
-    <!-- Étape 1 -->
-    <div id="onb-step-1">
-      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">🏠</div>
-      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Bienvenue sur SAS Vie Sociale !</div>
-      <div style="font-size:var(--fs-xs);color:var(--g500);text-align:center;margin-bottom:1rem;line-height:1.6">Configurons votre résidence en 5 étapes rapides pour que vos résidents puissent commencer à l'utiliser dès aujourd'hui.</div>
-      <div class="ann-field"><label class="ann-label">Nom de votre résidence</label><input type="text" class="fi" placeholder="Ex : Résidence Les Acacias" id="onb-nom-res" value="Les Acacias"></div>
-      <div class="ann-field"><label class="ann-label">Ville</label><input type="text" class="fi" placeholder="Ex : Lyon" id="onb-ville" value="Lyon"></div>
-      <button class="ann-btn-save" style="width:100%;margin-top:.5rem" onclick="onbNext(1)">Suivant →</button>
-    </div>
-    <!-- Étape 2 -->
-    <div id="onb-step-2" style="display:none">
-      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">👤</div>
-      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Votre profil directeur</div>
-      <div class="ann-field"><label class="ann-label">Votre prénom et nom</label><input type="text" class="fi" placeholder="Ex : Sophie Bernard" id="onb-nom-dir" value="Sophie Bernard"></div>
-      <div class="ann-field"><label class="ann-label">Votre rôle</label>
-        <select class="fsel" id="onb-role-dir">
-          <option value="directeur">Directeur / Directrice</option>
-          <option value="administration">Administration</option>
-          <option value="animateur">Animateur / Animatrice</option>
-        </select>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:.5rem">
-        <button class="ann-btn-cancel" onclick="onbPrev(2)">← Retour</button>
-        <button class="ann-btn-save" style="flex:2" onclick="onbNext(2)">Suivant →</button>
-      </div>
-    </div>
-    <!-- Étape 3 -->
-    <div id="onb-step-3" style="display:none">
-      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">📣</div>
-      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Premier message aux résidents</div>
-      <div style="font-size:var(--fs-xs);color:var(--g500);text-align:center;margin-bottom:.75rem">Ce message apparaîtra sur l'Accueil dans le bloc "L'équipe vous parle"</div>
-      <div class="ann-field"><textarea class="ann-textarea" id="onb-msg-accueil" rows="4" placeholder="Ex : Bonjour à tous ! Nous sommes ravis de vous accueillir sur VIE SOCIALE, votre nouveau réseau de résidence. N'hésitez pas à partager des moments et vous inscrire aux activités ! 😊">Bonjour à tous ! Nous sommes ravis de vous accueillir sur SAS Vie Sociale. Partagez des moments, inscrivez-vous aux activités et retrouvez vos voisins ! 😊</textarea></div>
-      <div style="display:flex;gap:8px;margin-top:.5rem">
-        <button class="ann-btn-cancel" onclick="onbPrev(3)">← Retour</button>
-        <button class="ann-btn-save" style="flex:2" onclick="onbNext(3)">Suivant →</button>
-      </div>
-    </div>
-    <!-- Étape 4 -->
-    <div id="onb-step-4" style="display:none">
-      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">🎯</div>
-      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Votre première activité</div>
-      <div style="font-size:var(--fs-xs);color:var(--g500);text-align:center;margin-bottom:.75rem">Ajoutez une activité pour donner envie aux résidents de s'inscrire</div>
-      <div class="ann-field"><label class="ann-label">Titre de l'activité</label><input type="text" class="fi" placeholder="Ex : Pétanque du jeudi" id="onb-act-titre" value="Pétanque du jeudi"></div>
-      <div style="display:flex;gap:8px">
-        <div class="ann-field" style="flex:1"><label class="ann-label">Date</label><input type="text" class="fi" placeholder="24 avril" id="onb-act-date" value="24 avril"></div>
-        <div class="ann-field" style="flex:1"><label class="ann-label">Heure</label><input type="text" class="fi" placeholder="14h30" id="onb-act-heure" value="14h30"></div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:.5rem">
-        <button class="ann-btn-cancel" onclick="onbPrev(4)">← Retour</button>
-        <button class="ann-btn-save" style="flex:2" onclick="onbNext(4)">Suivant →</button>
-      </div>
-    </div>
-    <!-- Étape 5 -->
-    <div id="onb-step-5" style="display:none">
-      <div style="text-align:center;font-size:2.5rem;margin-bottom:.5rem">✅</div>
-      <div style="font-weight:800;font-size:1rem;text-align:center;margin-bottom:.5rem">Tout est prêt !</div>
-      <div style="background:var(--green-l);border:1px solid #A7F3D0;border-radius:var(--r);padding:.875rem;margin-bottom:.875rem">
-        <div style="font-size:var(--fs-xs);color:#065F46;line-height:1.8">
-          <div>✅ Résidence configurée</div>
-          <div>✅ Profil directeur créé</div>
-          <div>✅ Premier message publié</div>
-          <div>✅ Première activité ajoutée</div>
-          <div>🔒 Vos résidents sont protégés par le RGPD</div>
-        </div>
-      </div>
-      <div style="font-size:var(--fs-xs);color:var(--g500);text-align:center;margin-bottom:.875rem">Partagez le lien de votre résidence à vos résidents pour qu'ils commencent à l'utiliser !</div>
-      <button class="ann-btn-save" style="width:100%;background:var(--green)" onclick="onbTerminer()">🚀 Accéder à ma résidence</button>
-    </div>
-  </div>
-</div>
-
 <!-- MODAL POST -->
 <div class="modal-ov" id="m-post"><div class="modal">
   <div class="modal-hdr"><div class="modal-title">Publier un moment</div><button class="modal-cls" onclick="closeM('post')">✕</button></div>
@@ -1422,11 +1258,6 @@ body.high-contrast .ntab{color:#aaa}body.high-contrast .ntab.active{color:#fff;b
   <div class="fg"><label class="fl">Places</label><input type="number" class="fi" value="15"></div>
   <button class="btn-pri" style="background:var(--orange)" onclick="closeM('creersortie');showT('Sortie créée ! ✅')">Créer la sortie</button>
 </div></div>
-
-<!-- BANDEAU CONFIDENTIALITÉ PERMANENT (visible résidents uniquement) -->
-<div id="privacy-banner" style="display:none;position:fixed;bottom:72px;left:50%;transform:translateX(-50%);width:100%;max-width:860px;background:rgba(16,185,129,0.92);color:#fff;text-align:center;font-size:var(--fs-xxs);font-weight:700;padding:4px 8px;z-index:89;letter-spacing:.01em">
-  🔒 Vos messages privés sont chiffrés — la direction n'y a jamais accès
-</div>
 
 <div class="toast" id="toast"></div>
 
@@ -1492,122 +1323,13 @@ body.high-contrast .ntab{color:#aaa}body.high-contrast .ntab.active{color:#fff;b
 </nav>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-// ─── Client Supabase (initialisé uniquement si DEMO_MODE = false) ───
-var supabaseClient = null;
-function initSupabase() {
-  if (!DEMO_MODE && SUPABASE_URL !== 'VOTRE_URL_SUPABASE') {
-    try {
-      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-      console.log('✅ Supabase connecté');
-    } catch(e) { console.warn('Supabase non connecté — mode démo actif', e); }
-  }
-}
-
-// ─── Charger les posts depuis Supabase (ou données démo) ───
-async function loadPostsEquipe() {
-  if (DEMO_MODE || !supabaseClient) return; // Données démo déjà affichées
-  try {
-    var { data, error } = await supabaseClient
-      .from('posts_equipe')
-      .select('*')
-      .eq('residence_id', RESIDENCE_ID)
-      .order('created_at', { ascending: false })
-      .limit(5);
-    if (error) throw error;
-    // Mettre à jour l'affichage avec les vraies données
-    console.log('Posts équipe chargés:', data);
-  } catch(e) { console.warn('Erreur chargement posts:', e); }
-}
-
-// ─── Charger les activités depuis Supabase ───
-async function loadActivites() {
-  if (DEMO_MODE || !supabaseClient) return;
-  try {
-    var { data, error } = await supabaseClient
-      .from('activites')
-      .select('*, inscriptions(count)')
-      .eq('residence_id', RESIDENCE_ID)
-      .gte('date', new Date().toISOString().split('T')[0])
-      .order('date', { ascending: true });
-    if (error) throw error;
-    console.log('Activités chargées:', data);
-  } catch(e) { console.warn('Erreur chargement activités:', e); }
-}
-
-// ─── Envoyer un signalement technique ───
-async function envoyerSignalement(categorie, appartement, description) {
-  if (DEMO_MODE || !supabaseClient) { showT('Signalement envoyé ! ✅'); return; }
-  try {
-    var { error } = await supabaseClient.from('signalements').insert({
-      residence_id: RESIDENCE_ID,
-      categorie: categorie,
-      appartement: appartement,
-      description: description,
-      statut: 'pending',
-      created_at: new Date().toISOString()
-    });
-    if (error) throw error;
-    showT('Signalement envoyé ! ✅');
-  } catch(e) { showT('Erreur envoi — réessayez'); console.error(e); }
-}
-
-// ─── Charger le menu restaurant ───
-async function loadMenuResto() {
-  if (DEMO_MODE || !supabaseClient) return;
-  try {
-    var today = new Date().toISOString().split('T')[0];
-    var { data, error } = await supabaseClient
-      .from('menus')
-      .select('*')
-      .eq('residence_id', RESIDENCE_ID)
-      .gte('date', today)
-      .order('date', { ascending: true })
-      .limit(7);
-    if (error) throw error;
-    if (data && data.length > 0) {
-      // Mise à jour des plats affichés
-      var plats = JSON.parse(data[0].plats_json || '{}');
-      if (plats.entree)  document.getElementById('menu-dish-entree').textContent  = plats.entree;
-      if (plats.plat)    document.getElementById('menu-dish-plat').textContent    = plats.plat;
-      if (plats.vege)    document.getElementById('menu-dish-vege').textContent    = plats.vege;
-      if (plats.dessert) document.getElementById('menu-dish-dessert').textContent = plats.dessert;
-    }
-  } catch(e) { console.warn('Erreur chargement menu:', e); }
-}
-
-// ─── Sauvegarder le menu restaurant dans Supabase ───
-async function saveMenuSupabase(plats) {
-  if (DEMO_MODE || !supabaseClient) return;
-  try {
-    var today = new Date().toISOString().split('T')[0];
-    var { error } = await supabaseClient.from('menus').upsert({
-      residence_id: RESIDENCE_ID,
-      date: today,
-      service: 'dejeuner',
-      plats_json: JSON.stringify(plats),
-      updated_at: new Date().toISOString()
-    }, { onConflict: 'residence_id,date,service' });
-    if (error) throw error;
-    console.log('Menu sauvegardé dans Supabase');
-  } catch(e) { console.warn('Erreur sauvegarde menu:', e); }
-}
-</script>
 // =================== CONFIGURATION ABONNEMENT & RÔLE ===================
 // Changer ces valeurs pour simuler différents profils
-// =================== CONFIGURATION SUPABASE ===================
-// ⚠️  ÉTAPE 1 : Remplacer ces 2 valeurs par vos vraies clés Supabase
-//    → supabase.com → votre projet → Settings → API
-var SUPABASE_URL  = 'https://xmnnxkmotbmfjwlpcepb.supabase.co';
+var SUPABASE_URL = 'https://xmnnxkmotbmfjwlpcepb.supabase.co';
 var SUPABASE_ANON = 'sb_publishable_lCE1nHBb4-fCW0qdE79e1Q_yroOXHA9';
-// ⚠️  ÉTAPE 2 : Remplacer l'ID de résidence par celui créé dans Supabase
-var RESIDENCE_ID  = 'e822e0dc-2832-4958-8fe2-afc07499fce5';
-// ─── Mode démo : true = données fictives / false = vraies données Supabase ───
-var DEMO_MODE = false; // ✅ Connecté à Supabase — Les Acacias
-
-// =================== CONFIGURATION ABONNEMENT & RÔLE ===================
-var SUBSCRIPTION = 'pro'; // 'gratuit' (3 mois gratuit, 200 résidents max) | 'pro' (79€/mois, résidents illimités)
+var RESIDENCE_ID = 'e822e0dc-2832-4958-8fe2-afc07499fce5';
+var SUBSCRIPTION = 'premium'; // 'starter' | 'essentiel' | 'premium'
 var IS_DIRECTOR  = true;       // true = directeur, false = résident
 
 // ── v8 : Système de rôles ──
@@ -1634,20 +1356,11 @@ var TECH_SIGNALS = [
 
 // =================== INITIALISATION ===================
 function initApp() {
-  // ── Initialisation Supabase (si configuré) ──
-  initSupabase();
-  loadActivites();
-  loadMenuResto();
-  // ── Restaurant : visible pour tous les abonnements (gratuit et pro) ──
-  if (SUBSCRIPTION === 'gratuit' || SUBSCRIPTION === 'pro') {
+  // ── Restaurant : visible uniquement Essentiel ou Premium ──
+  if (SUBSCRIPTION === 'essentiel' || SUBSCRIPTION === 'premium') {
     document.getElementById('tab-restaurant').style.display = 'flex';
     var bnavResto = document.getElementById('bnav-restaurant');
     if (bnavResto) bnavResto.style.display = 'flex';
-  }
-  // ── Restaurant direction : bloc gestion menu visible pour direction ──
-  if (IS_DIRECTOR || USER_ROLE === 'directeur' || USER_ROLE === 'administration' || USER_ROLE === 'animateur') {
-    var dirBlock = document.getElementById('resto-dir-block');
-    if(dirBlock) dirBlock.style.display = 'block';
   }
   // ── Direction : carte dans la page Plus, visible uniquement pour le directeur / administration ──
   if (IS_DIRECTOR || USER_ROLE === 'directeur' || USER_ROLE === 'administration') {
@@ -1666,14 +1379,6 @@ function initApp() {
   // ── Toast : ajuster position au-dessus de la bottom nav ──
   var toastEl = document.getElementById('toast');
   if (toastEl) toastEl.style.bottom = '76px';
-  // ── Bandeau confidentialité : visible pour les résidents uniquement ──
-  if (USER_ROLE === 'resident') {
-    var privBanner = document.getElementById('privacy-banner');
-    if (privBanner) privBanner.style.display = 'block';
-  }
-  // ── Onboarding directeur : simulé en démo (commenter la ligne suivante en prod) ──
-  // Pour activer l'onboarding, décommenter la ligne ci-dessous :
-  // if (IS_DIRECTOR) showOnboarding();
 }
 
 function applyUserRole() {
@@ -1748,60 +1453,11 @@ function openGdor(name){document.getElementById('gdor-name').textContent=name;do
 function closeGdor(){document.getElementById('modal-gdor').classList.remove('open')}
 function saveGdor(){var msg=document.getElementById('gdor-msg').value.trim();if(!msg){showT('Écrivez un message !');return;}closeGdor();showT('Message ajouté au livre d\'or 💌 Merci !');}
 
-// =================== ONBOARDING DIRECTEUR ===================
-var ONB_CURRENT = 1;
-function showOnboarding(){document.getElementById('modal-onboarding').classList.add('open');}
-function onbNext(step){
-  document.getElementById('onb-step-'+step).style.display='none';
-  document.getElementById('onb-dot-'+step).classList.remove('active');
-  var next=step+1;
-  document.getElementById('onb-step-'+next).style.display='block';
-  document.getElementById('onb-dot-'+next).classList.add('active');
-  ONB_CURRENT=next;
-}
-function onbPrev(step){
-  document.getElementById('onb-step-'+step).style.display='none';
-  document.getElementById('onb-dot-'+step).classList.remove('active');
-  var prev=step-1;
-  document.getElementById('onb-step-'+prev).style.display='block';
-  document.getElementById('onb-dot-'+prev).classList.add('active');
-  ONB_CURRENT=prev;
-}
-function onbTerminer(){
-  document.getElementById('modal-onboarding').classList.remove('open');
-  showT('Votre résidence est prête ! Bienvenue 🎉');
-}
-
 // =================== ÉVÉNEMENTS ===================
 function filterEvt(el){document.querySelectorAll('.evt-src-btn').forEach(function(x){x.classList.remove('active')});el.classList.add('active');showT('Filtre : '+el.textContent);}
 
 // =================== RESTAURANT ===================
 function selDay(el){document.querySelectorAll('.dtab').forEach(function(x){x.classList.remove('active')});el.classList.add('active');showT('Menu du '+el.textContent+' chargé');}
-function restoShowPDF(){document.getElementById('resto-pdf-zone').style.display='block';document.getElementById('resto-saisie-zone').style.display='none';}
-function restoShowSaisie(){document.getElementById('resto-saisie-zone').style.display='block';document.getElementById('resto-pdf-zone').style.display='none';}
-function restoImportPDF(input){
-  if(input.files&&input.files[0]){
-    document.getElementById('resto-pdf-preview').style.display='block';
-    document.getElementById('resto-menu-card').style.display='none';
-    document.getElementById('resto-pdf-affiche').style.display='block';
-    showT('Menu PDF importé et publié ✅');
-  }
-}
-function restoSauvegarderMenu(){
-  var e=document.getElementById('saisie-entree').value.trim();
-  var p=document.getElementById('saisie-plat').value.trim();
-  var v=document.getElementById('saisie-vege').value.trim();
-  var d=document.getElementById('saisie-dessert').value.trim();
-  if(!e&&!p){showT('Saisissez au moins une entrée et un plat');return;}
-  if(e)document.getElementById('menu-dish-entree').textContent=e;
-  if(p)document.getElementById('menu-dish-plat').textContent=p;
-  if(v)document.getElementById('menu-dish-vege').textContent=v;
-  if(d)document.getElementById('menu-dish-dessert').textContent=d;
-  // Sauvegarder dans Supabase si connecté
-  saveMenuSupabase({entree:e,plat:p,vege:v,dessert:d});
-  document.getElementById('resto-saisie-zone').style.display='none';
-  showT('Menu publié ! Les résidents voient les changements ✅');
-}
 
 // =================== FAMILLE ===================
 function loginFamille(){
